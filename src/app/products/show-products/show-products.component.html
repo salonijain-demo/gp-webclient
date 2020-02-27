@@ -1,0 +1,94 @@
+<div class="row" ng-if="inventory_report_page != true">
+  <div class="col-lg-2 col-md-2">
+    <button (click)="showSelect()" (mouseover)="showDropdown(true)" (mouseleave)="showDropdown(false)">
+      <span *ngIf="selectAll">Select All</span>
+      <span *ngIf="!selectAll">Select None</span>
+    </button>
+    <div *ngIf="showDropdownSelect">
+      <ul class="list-unstyled components">
+        <li>Deselect all</li>
+        <li>Show Selected </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-7 col-md-7">
+    <div class="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 pull-left">
+      <input type="text" id="product-search-query" autofocus="autofocus" class="form-control search-box"
+        ng-model="products.setup.search" placeholder="Search">
+    </div>
+  </div>
+  <div class="col-lg-1 col-md-1" ngbDropdown>
+    <button type="button" class="groove-button" id="editDropdown" ngbDropdownToggle>
+      Edit <span class="caret"></span>
+    </button>
+    <div aria-labelledby="editDropdown" ngbDropdownMenu role="menu" style="width: 280px;">
+      <ul class="list-unstyled components">
+        <li class="dropdown-item" ng-if="gridOptions.selections.show_delete"><a (click)="product_delete()">Delete<span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item disabled" ng-if="!gridOptions.selections.show_delete">
+          <a tooltip="Inactive Products can be deleted from the Inactive products list.">Delete<span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="product_duplicate()">Duplicate <span
+          class=" pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="product_barcode()">Generate barcode from SKU <span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="product_barcode_label()">Print Product Barcode Labels <span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="product_receiving_label()">Print Receiving Labels <span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="backup_product_csv()">Export Products to CSV <span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="broken_image_export()">Broken/Missing image export <span
+          class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item" ng-if="gridOptions.selections.show_delete"><a (click)="find_inactive_product()">Find Inactive Products <span
+          class="pull-right badge badge-important"></span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-2" ngbDropdown>
+    <button type="button" class="groove-button" id="statusDropdown" ngbDropdownToggle>
+      Change Status <span class="caret"></span>
+    </button>
+    <div aria-labelledby="statusDropdown" role="menu" ngbDropdownMenu>
+      <ul class="list-unstyled components">
+        <li class="dropdown-item"><a (click)="product_change_status('active')">Active <span class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="product_change_status('inactive')">Inactive <span class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+        <li class="dropdown-item"><a (click)="product_change_status('new')">New <span class="pull-right badge badge-important">
+          <!-- {{products.setup.select_all? gridOptions.paginate.total_items: gridOptions.selections.selected_count}} -->
+        </span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

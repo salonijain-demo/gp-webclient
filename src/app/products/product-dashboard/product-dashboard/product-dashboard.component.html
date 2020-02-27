@@ -1,0 +1,77 @@
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-lg-12">
+      <app-base></app-base>
+    </div>
+   <div class="col-lg-2">
+      <div class="sidebar panel-body-new cursor">
+        <ul class="list-unstyled components">
+          <li><a (click)="dropdownList(true,false,false)">Products</a></li>
+          <div *ngIf="productDropdown">
+            <ul class="list-unstyled components">
+              <li><a class="dropdown-item" (click)="openModal(createProductDropdown)">Create</a></li>
+              <li><a class="dropdown-item" (click)="product(true,false,false,false)">Show All</a></li>
+              <li><a class="dropdown-item" (click)="product(false,true,false,false)">Active Products</a></li>
+              <li><a class="dropdown-item" (click)="product(false,false,true,false)">Inactive Products</a></li>
+              <li><a class="dropdown-item" (click)="product(false,false,false,true)">New</a></li>
+            </ul>
+          </div>
+      
+          <li><a (click)="dropdownList(false,true,false)">Kits</a></li>
+          <div *ngIf="kitDropdown">
+            <ul class="list-unstyled components">
+              <li><a class="dropdown-item" (click)="kit(true,false,false,false)">Show All</a></li>
+              <li><a class="dropdown-item" (click)="kit(false,true,false,false)">Active Kits</a></li>
+              <li><a class="dropdown-item" (click)="kit(false,false,true,false)">Inactive Kits</a></li>
+              <li><a class="dropdown-item" (click)="kit(false,false,false,true)">New Kits</a></li>
+            </ul>
+          </div>
+
+          <li><a (click)="dropdownList(false,false,true)">Inventory</a></li>
+          <div *ngIf="inventoryDropdown">
+            <ul class="list-unstyled components">
+              <li><a class="dropdown-item" (click)="openModal(receiveInventoryModal)">Receive or Recount Inventory</a></li>
+              <li><a class="dropdown-item" (click)="inventory(true)">Inventory Report</a></li>
+            </ul>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <div class="row">
+        <app-show-products [productSelected]="productSelected"></app-show-products>
+        <app-show-all-product (productSelected)="getProductSelected($event)" *ngIf="showAllProduct"></app-show-all-product>
+        <app-active-product (productSelected)="getProductSelected($event)" *ngIf="activeProduct"></app-active-product>
+        <app-inactive-product (productSelected)="getProductSelected($event)" *ngIf="inactiveProduct"></app-inactive-product>
+        <app-new-product (productSelected)="getProductSelected($event)" *ngIf="newProduct"></app-new-product>
+        <app-show-all-kits (productSelected)="getProductSelected($event)" *ngIf="showAllKit"></app-show-all-kits>
+        <app-active-kits (productSelected)="getProductSelected($event)" *ngIf="activeKit"></app-active-kits>
+        <app-inactive-kits (productSelected)="getProductSelected($event)" *ngIf="inactiveKit"></app-inactive-kits>
+        <app-new-kits (productSelected)="getProductSelected($event)" *ngIf="newKit"></app-new-kits>
+        <app-inventory-report *ngIf="inventoryReport"></app-inventory-report>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #createProductDropdown let c="close" d="dismiss">
+  <div class="modal-body">
+    <app-create-product></app-create-product>
+  </div>
+  <div class="modal-footer">
+    <button (click)="ok()" class="modal-save-button" translate>save&close</button>
+    <button (click)="cancel()" class="modal-cancel-button" translate>cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #receiveInventoryModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="modal-title">Receive or Recount Inventory</div>
+    <button type="button" class="close-btn" (click)="cancel()"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body">
+   <app-receive-recount-inventory></app-receive-recount-inventory>
+  </div>
+  <div class="modal-footer">
+    <button (click)="cancel()" class="modal-cancel-button" translate>Cancel</button>
+  </div>
+</ng-template>  

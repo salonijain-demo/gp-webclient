@@ -1,0 +1,113 @@
+<div class="col-lg-10 col-sm-10 general-settings">
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>User Stats Export</h3>
+
+      <div class="form-horizontal general-settings-form">
+        <fieldset>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Auto Email Export</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div toggle-switch [(ngModel)]="export_settings.single.auto_stat_email_export"
+                   groov-click="update_stat_export_settings()"></div>
+            </div>
+          </div>
+          <div *ngIf="export_settings.single.auto_stat_email_export=='1'">
+            <div class="form-group">
+              <div class="controls col-sm-offset-3 col-sm-5">
+                <input type="text" class="form-control input-style" [(ngModel)]="export_settings.single.stat_export_email"
+                       placeholder="Email address" (blur)="update_stat_export_settings()"/>
+              </div>
+            </div><br/><br/>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Export Range </label>
+
+            <div class="controls col-sm-3 form-inline" ngbDropdown>
+              <button ngbDropdownToggle id="rangeDropdown" class="groove-button label label-default">
+                <span *ngIf="export_settings.single.stat_export_type=='1'">24 hours</span>
+                <span *ngIf="export_settings.single.stat_export_type=='7'">7 days</span>
+                <span *ngIf="export_settings.single.stat_export_type=='30'">30 days</span>
+                <span *ngIf="export_settings.single.stat_export_type=='90'">90 days</span>
+                <span *ngIf="export_settings.single.stat_export_type=='180'">180 days</span>
+                <span *ngIf="export_settings.single.stat_export_type=='360'">360 days</span>
+              </button>
+              <ul ngbDropdownMenu aria-labelledby="rangeDropdown" role="menu">
+                <li><a class="dropdown-toggle" (click)="change_option('stat_export_type','1')">24 hours</a></li>
+                <li><a class="dropdown-toggle" (click)="change_option('stat_export_type','7')">7 days</a></li>
+                <li><a class="dropdown-toggle" (click)="change_option('stat_export_type','30')">30 days</a></li>
+                <li><a class="dropdown-toggle" (click)="change_option('stat_export_type','90')">90 days</a></li>
+                <li><a class="dropdown-toggle" (click)="change_option('stat_export_type','180')">180 days</a></li>
+                <li><a class="dropdown-toggle" (click)="change_option('stat_export_type','360')">360 days</a></li>
+              </ul>
+            </div>
+          </div>
+            <div class="form-group">
+              <label class="control-label col-sm-3">Time for sending order export email</label>
+
+              <div class="controls col-sm-7">
+                <ngb-timepicker [(ngModel)]="time" [meridian]="true" (change)="show_button=true"></ngb-timepicker>
+                <!-- <timepicker [(ngModel)]="export_settings.single.time_to_send_stat_export_email" (change)="show_button=true" show-meridian="true" style="display: inline-block;vertical-align: middle;">                             -->
+                <!-- </timepicker> -->
+                <span style="display: inline-block;vertical-align: middle;padding-left: 13px;">
+                  Current Time: {{export_settings.current_time}}
+                  <!-- <i class="groove-fa fa fa-clock-o" groov-popover="{{'To adjust the time zone please <a href=#/settings/system/general (click)=scrollup()>click here.</a>'}}"></i> -->
+                </span>
+              </div>
+
+            </div>
+            <div class="row" *ngIf="show_button">
+              <div class="col-sm-4 col-sm-offset-3">
+                <button class="modal-save-button" (click)="update_stat_export_settings()">Update</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-3">Send Email On</label>
+
+              <div class="controls col-sm-9 form-inline">
+                <label class="checkbox col-sm-2">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_mon"
+                         (change)="update_stat_export_settings()"> mon
+                </label>
+                <label class="checkbox col-sm-2">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_tue"
+                         (change)="update_stat_export_settings()"> tue
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_wed"
+                         (change)="update_stat_export_settings()"> wed
+                </label>
+              </div>
+              <div class="controls col-sm-9 col-sm-offset-3 form-inline">
+                <label class="checkbox col-sm-2">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_thu"
+                         (change)="update_stat_export_settings()"> thu
+                </label>
+                <label class="checkbox col-sm-2">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_fri"
+                         (change)="update_stat_export_settings()"> fri
+                </label>
+                <label class="checkbox col-sm-2">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_sat"
+                         (change)="update_stat_export_settings()"> sat
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" [(ngModel)]="export_settings.single.send_stat_export_email_on_sun"
+                         (change)="update_stat_export_settings()"> sun
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-2 text-center col-sm-offset-4">
+              <button (click)="export_stat()" class="modal-save-button">Export Now</button>
+            </div>
+          </div>
+          
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

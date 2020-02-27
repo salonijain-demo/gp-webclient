@@ -1,0 +1,44 @@
+<div class="col-lg-10 col-md-10">
+  <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <button (click)="showSelect()">
+        <span *ngIf="selectAll">Select All</span>
+        <span *ngIf="!selectAll">Select None</span>
+      </button>
+    </div>
+    <div class="col-lg-7 col-md-9">
+      <div class="col-md-9 col-md-offset-3">
+        <input type="text" [(ngModel)]="users.setup.search" autofocus="autofocus"
+          id="user-search-query" class="form-control search-box" placeholder="Search">
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1" ngbDropdown>
+      <button type="button" class="groove-button" id="editDropdown" ngbDropdownToggle>
+        Edit <span class="caret"></span>
+      </button>
+      <div role="menu" aria-labelledby="editDropdown" ngbDropdownMenu>
+        <ul class="list-unstyled components">
+          <li><a class="dropdown-item" (click)="user_delete()">Delete</a></li>
+          <li><a class="dropdown-item" (click)="user_duplicate()">Duplicate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2" ngbDropdown>
+      <button type="button" class="groove-button" id="changeStatusDropdown" ngbDropdownToggle>
+        Change Status <span class="caret"></span>
+      </button>
+      <div role="menu" aria-labelledby="changeStatusDropdown" ngbDropdownMenu>
+        <ul class="list-unstyled components">
+          <li><a class="dropdown-item" (click)="user_change_status('active')">Active</a></li>
+          <li><a class="dropdown-item" (click)="user_change_status('inactive')">Inactive</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <app-data-grid (editData)="getEditedData($event)" (selected)="getUserPermissionSelected($event)" *ngIf="showAllPermissionData" [userSettingData]="showAllPermissionData"></app-data-grid>
+    </div>
+  </div>
+</div>

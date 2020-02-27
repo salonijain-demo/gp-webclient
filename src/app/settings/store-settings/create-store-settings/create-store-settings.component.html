@@ -1,0 +1,220 @@
+<div class="store-modal">
+  
+    <div class="container-fluid form-horizontal">
+      <div class="row">
+        <div class="col-md-8">
+          <legend>Store Information</legend>
+          <div class="form-group row">
+            <label class="control-label col-md-3">Store Name</label>
+
+            <div class="controls col-md-9">
+              <input name="name" [(ngModel)]="stores.single.name" (blur)="update_single_store(true)" type="text"
+                class="form-control input-style" value="" required>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-md-3">Active</label>
+
+            <div class="controls col-md-9">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="stores.single.status"
+                  [(ngModel)]="stores.single.status"
+                  (change)="update_single_store(true)">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="stores.single.status" (click)="update_single_store(true)"></div> -->
+            </div>
+            <div class="col-sm-2" *ngIf="stores.single.store_type=='Shopify' || stores.single.store_type=='BigCommerce' || stores.single.store_type=='Magento API 2'">
+              <button (click)="import_product_catalog()" class="groove-button label label-default label-danger" translate>Import Product Catalog
+              </button>
+            </div>
+            
+            <div class="col-sm-2" *ngIf="stores.single.store_type=='Teapplix'">
+              <button (click)="import_product_catalog()" class="groove-button label label-default label-danger" translate>Import/Update Product Catalog
+              </button>
+            </div>
+
+          </div>
+          <div class="col-lg-12" *ngIf="stores.single.store_type=='Amazon'">
+            <div class="form-group col-lg-9 row">
+              <label class="control-label col-lg-3 col-md-3"></label>
+              <div  class="col-lg-4 col-sm-4">
+                <input name="productfile" file-upload type="file" value="" required style="width: 220px;" />
+              </div>
+              <div class="col-lg-2 col-sm-2">
+                  <button class="modal-save-button" (click)="amazon_products_import()">Import Poducts</button> 
+              </div>
+            </div>
+            <div class="col-lg-3 form-group row">
+              <label class="control-label col-lg-3 col-md-3"></label>
+              <div class="col-lg-9 col-md-9">
+                <small>( Please upload only unmodified txt file. )</small>
+              </div>
+            </div>
+
+          </div>
+          
+          <div class="form-group row" ng-if="stores.general_settings.email_address_for_packer_notes==null || stores.general_settings.email_address_for_packer_notes=='null' || stores.general_settings.email_address_for_packer_notes.length<1">
+            <label class="control-label col-md-3">Note*</label>
+            <div class="col-md-9">
+              To receive an email notification when the import completes, please add an address for 'system notifications' in general settings.
+            </div>
+          </div>
+
+          <div *ngIf="stores.single.store_type=='BigCommerce' && stores.single.allow_bc_inv_push">
+            <div class="form-group row">
+              <label class="control-label col-md-3">Inventory Push/Pulpl</label>
+
+              <div class="controls col-md-2">
+                <div class="row toggle-switch">
+                  <span placeholder="onLabel"></span>
+                  <label class="switch">
+                    <input class="switchon" type="checkbox"
+                    name="stores.single.update_inv"
+                    [(ngModel)]="stores.single.update_inv"
+                    (change)="update_single_store(true)">
+                    <span class="slider round"></span>
+                  </label>
+                  <span placeholder="offLabel"></span>
+                </div>
+                <!-- <div toggle-switch [(ngModel)]="stores.single.update_inv" (click)="update_single_store(true)"></div> -->
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf="stores.single.update_inv && stores.single.id && stores.single.store_hash && stores.single.access_token">
+              <label class="control-label col-md-3"></label>
+
+              <div class="col-sm-2">
+                <button confirm-click="Are you sure? This will overwrite inventory data!" (click)="pull_store_inventory()" class="dropdown-toggle groove-button label label-default label-danger" translate>Pull Inventory
+                </button>
+              </div>
+              <div class="col-sm-2">
+                <button confirm-click="Are you sure? This will overwrite inventory data!" (click)="push_store_inventory()" class="dropdown-toggle groove-button label label-default label-danger" translate>Push Inventory
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-md-3"></label>
+
+            <div class="col-sm-9" *ngIf="stores.single.update_inv && !stores.single.id">
+              'Push Inventory' and 'Pull Inventory' buttons will be provided once the store is created.
+            </div>
+            <div class="col-sm-9">
+              <!-- <span style="color:RED;">{{stores.single.connection_message}}</span> -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-md-3">Warehouse Location </label>
+
+            <div class="controls col-md-9" ngbDropdown>
+              <button class="groove-button" id="warehouseDropdown" ngbDropdownToggle>
+                <span *ngFor="let inv_wh of warehouses.list"
+                  >
+                  {{inv_wh.info.name}}
+                </span>
+                <span class="caret"></span>
+              </button>
+              <div aria-labelledby="warehouseDropdown" role="menu" ngbDropdownMenu>
+                <ul class="list-unstyled components">
+                  <li *ngFor="let inv_wh of warehouses.list"><a class="dropdown-item"
+                    (click)="change_opt('inventory_warehouse_id',inv_wh.info.id)">
+                    {{inv_wh.info.name}}
+                  </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-md-3">Custom Packing-Slip Message For Customer</label>
+
+            <div class="controls col-md-9">
+              <ckeditor 
+                [(ngModel)]="stores.single.thank_you_message_to_customer"
+                (blur)="update_single_store(true)">
+              </ckeditor>
+              <!-- <div ng-controller="storeSingleCtrl">
+                <div text-angular [(ngModel)]="stores.single.thank_you_message_to_customer" (blur)="update_single_store(true)"></div>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- <div *ngFor="let store of stores.types">
+            demo34657{{store.name}}
+          </div> -->
+
+          <div class="form-group row">
+            <label class="control-label col-md-3">Store Type</label>
+            <div class="controls col-md-9" ngbDropdown>
+              <button class="storeTypeBtn groove-button" id="storeTypeDropdown" ngbDropdownToggle>
+                <span ng-repeat="let store of stores.types"
+                  *ngIf="stores.single.store_type==id">
+                </span>
+                <span class="caret"></span>
+              </button>
+              <div aria-labelledby="storeTypeDropdown" role="menu" ngbDropdownMenu>
+                <ul class="list-unstyled components">
+                  <li *ngFor="let item of stores.types | keyvalue">
+                    <!-- <a class="dropdown-toggle" ng-if="hide_if_mg_rest(store.name)" (click)="change_opt('store_type',id)">{{store.name}}</a> -->
+                    <a class="dropdown-item" (click)="change_opt('store_type',item.key)">
+                      {{item.key}}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="(id, store_type) in stores.types"
+        ng-if="stores.single.store_type == id">
+      </div>
+
+      <!-- groov-include="{{store_type.file}}" -->
+      <div>
+          <div *ngIf = "stores.single.store_type == 'Amazon'">
+            <app-amazon-setting></app-amazon-setting>
+          </div>
+          <div *ngIf = "stores.single.store_type == 'Magento'">
+            <app-magento-soap-setting></app-magento-soap-setting>
+          </div>
+          <div *ngIf = "stores.single.store_type == 'Magento API 2'">
+            <app-magento-rest-setting></app-magento-rest-setting>
+          </div>
+          <div *ngIf = "stores.single.store_type == 'Ebay'">
+            <app-ebay-setting></app-ebay-setting>
+          </div>
+          <div *ngIf = "stores.single.store_type == 'CSV'">
+            <app-csv-setting></app-csv-setting>
+          </div>
+          <div *ngIf = "stores.single.store_type == 'Shipstation API 2'">
+            <app-shipstation-api-setting></app-shipstation-api-setting>
+          </div>
+          <div *ngIf = "stores.single.store_type == 'Shipworks'">
+            <app-shipwork-setting></app-shipwork-setting>
+          </div>
+        <div *ngIf = "stores.single.store_type == 'Shopify'">
+          <app-shopify-setting></app-shopify-setting>
+        </div>
+        <div *ngIf = "stores.single.store_type == 'BigCommerce'">
+          <app-bigcommerce-setting></app-bigcommerce-setting>
+        </div>
+        <div *ngIf = "stores.single.store_type == 'ShippingEasy'">
+          <app-shipping-easy-setting></app-shipping-easy-setting>
+        </div>
+        <div *ngIf = "stores.single.store_type == 'Teapplix'">
+          <app-teapplix-setting></app-teapplix-setting>
+        </div>
+      </div>
+    </div>
+  
+</div>

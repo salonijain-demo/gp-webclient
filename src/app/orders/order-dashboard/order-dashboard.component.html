@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-lg-12">
+    <app-base></app-base>
+  </div>
+  <div class="col-lg-2">
+    <div class="sidebar panel-body-new cursor">
+      <ul class="list-unstyled components">
+        <li><a (click)="showOrderDropdownList()">Orders</a></li>
+        <div *ngIf="showOrderDropdown">
+          <ul class="list-unstyled components">
+            <li><a class="dropdown-item" (click)="createOrder(orderModal)">Create</a></li>
+            <li><a class="dropdown-item" (click)="setup_child(true, false, false, false, false, false)">Show All</a></li>
+            <li><a class="dropdown-item" (click)="setup_child(false, true, false, false, false, false)">Awaiting</a></li>
+            <li><a class="dropdown-item" (click)="setup_child(false, false, true, false, false, false)">Action Required</a></li>
+            <li><a class="dropdown-item" (click)="setup_child(false, false, false, true, false, false)">Service</a></li>
+            <li><a class="dropdown-item" (click)="setup_child(false, false, false, false, true, false)">Cancelled</a></li>
+            <li><a class="dropdown-item" (click)="setup_child(false, false, false, false, false, true)">Scanned</a></li>
+          </ul>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-10">
+    <div class="col-lg-12">
+      <div class="row">
+        <app-show-orders *ngIf="order" [order]="order"></app-show-orders>
+        <app-show-all-order (order)="get_order($event)" *ngIf="allLink"></app-show-all-order>
+        <app-awaiting-order (order)="get_order($event)" *ngIf="awaitingLink"></app-awaiting-order>
+        <app-action-required-order (order)="get_order($event)" *ngIf="onholdLink"></app-action-required-order>
+        <app-service-issue-order (order)="get_order($event)" *ngIf="serviceissueLink" ></app-service-issue-order>
+        <app-cancelled-order (order)="get_order($event)" *ngIf="cancelledLink"></app-cancelled-order>
+        <app-scanned-order (order)="get_order($event)" *ngIf="scannedLink"></app-scanned-order>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #orderModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="modal-title">Order # Details</div>
+    <button type="button" class="close-btn" (click)="cancel()"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body" style="padding-top: 40px;">
+    <app-create-order></app-create-order>
+  </div>
+  <div class="modal-footer" style="padding-top: 15px;">
+    <button (click)="save(confirmModal)" class="modal-save-button">Save & Close</button>
+    <button (click)= "cancel()" class="modal-cancel-button" value="Submit" data-dismiss="modal">Cancel</button>
+  </div>
+</ng-template>

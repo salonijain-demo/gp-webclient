@@ -1,0 +1,128 @@
+<!-- <div class="col-lg-10 col-md-10"> -->
+  <div class="row">
+    <div class="col-lg-2 col-md-2">
+      <button (click)="showSelect()" (mouseover)="showDropdown(true)" (mouseleave)="showDropdown(false)">
+        <span *ngIf="selectAll">Select All</span>
+        <span *ngIf="!selectAll">Select None</span>
+      </button>
+      <div *ngIf="showDropdownSelect">
+        <ul class="list-unstyled components">
+          <li>Deselect all</li>
+          <li>Show Selected </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+      <div class="col-lg-offset-3 col-md-offset-3 col-lg-7 col-md-7 pull-left">
+        <input type="text" class="form-control search-box" autofocus="autofocus" id="order-search-query"
+          [(ngModel)]="search"
+          *ngIf="orders.orders_count.all < 10000">
+
+        <!-- placeholder="{{ general_settings.single.search_by_product ? 'Order item search' : 'Search'}}" -->
+
+        <input type="text" class="form-control search-box" autofocus="autofocus" id="order-search-query"
+          [(ngModel)]="orders.setup.search_value"
+          *ngIf="orders.orders_count.all > 10000"
+          ng-keypress="orders.setup.search = $event.keyCode == 13 ? orders.setup.search_value : orders.setup.search">
+        <!-- placeholder="{{ general_settings.single.search_by_product ? 'Order item search' : 'Search'}}" -->
+      </div>
+      <div class="col-lg-1 col-md-1 no-padding" ng-if="orders.orders_count.all > 10000">
+        <i class="fa fa-lg fa-arrow-right" ng-click="orders.setup.search = orders.setup.search_value" style="cursor:pointer;" aria-hidden="true" ng-style="{ 'color' : orders.setup.search_value  ? '#335223' : '#BDBDBD' }"></i>
+      </div>
+
+      <div class="col-lg-1 col-md-1 no-padding" groov-click="search_by_product()" groov-popover='When enabled, search by a product to find open orders which contain it.' popover-trigger="mouseenter" popover-placement="bottom" style="position: static;">
+        <i class="fa fa-lg fa-search search-responsive" style="cursor:pointer;" aria-hidden="true" ng-style="{ 'color' : general_settings.single.search_by_product ? '#335223' : '#BDBDBD' }" ></i>
+      </div>
+    </div>
+
+
+    <!-- <div class="col-lg-2 col-md-2">
+      <div class="col-lg-offset-3 col-md-offset-3 col-lg-7 col-md-7 pull-left">
+        <input type="text" class="form-control search-box">
+      </div>
+      <div class="col-lg-1 col-md-1 no-padding">
+        <i class="fa fa-lg fa-arrow-right" style="cursor:pointer;" aria-hidden="true"></i>
+      </div>
+    
+      <div class="col-lg-1 col-md-1 no-padding" groov-click="search_by_product()" groov-popover='When enabled, search by a product to find open orders which contain it.' popover-trigger="mouseenter" popover-placement="bottom" style="position: static;">
+        <i class="fa fa-lg fa-search search-responsive" style="cursor:pointer;" aria-hidden="true" ng-style="{ 'color' : general_settings.single.search_by_product ? '#335223' : '#BDBDBD' }" ></i>
+      </div>
+    </div> -->
+
+    <div ngbDropdown class="col-lg-2 col-md-2 set_dropdwoan_width">
+      <button class="groove-button" id="printing_menu" ngbDropdownToggle>
+        Printing <span class="caret"></span>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="printing_menu" role="menu">
+        <ul class="list-unstyled components">
+          <li><a class="dropdown-item" (click)="generate_orders_pick_list_and_packing_slip()">Print Pick List and
+            Packing Slips <span class="badge badge-important">
+              </span>
+              </a> 
+          </li>
+          <li><a class="dropdown-item" (click)="generate_orders_pick_list()">Print Only Pick list 
+            <span class="pull-right badge badge-important">
+          </span>
+          </a>
+          </li>
+          <li><a class="dropdown-item" (click)="generate_orders_packing_slip()">Print Only Packing Slips <span
+            class="pull-right badge badge-important">
+          </span>
+          </a>
+          </li>
+          <li><a class="dropdown-item" (click)="generate_product_barcode_slip()">Print Product Barcode Label <span
+            class="pull-right badge badge-important">
+            </span>
+          </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div ngbDropdown class="col-lg-2 col-md-2 set_dropdwoan_width">
+      <button class="groove-button" id="dropdownMenuLink" ngbDropdownToggle>
+        Edit <span class="caret"></span>
+      </button>
+      <div ngbDropdownMenu role="menu" aria-labelledby="dropdownMenuLink">
+      <ul class="list-unstyled components">
+        <li ><a class="dropdown-item"
+          (click)="actionListener('export_items')">Export
+          Items <span class="pull-right badge badge-important">
+          </span></a>
+        </li>
+        <li><a class="dropdown-item" (click)="actionListener('delete')">Delete <span
+          class="pull-right badge badge-important">
+        </span></a>
+        </li>
+        <li><a class="dropdown-item" (click)="actionListener('duplicate')">Duplicate
+          <span class="pull-right badge badge-important">
+        </span></a>
+        </li>
+      </ul>
+      </div>
+    </div>
+
+    <div ngbDropdown class="col-lg-2 col-md-2 set_dropdwoan_width">
+      <button class="groove-button" id="changeStatusLink" ngbDropdownToggle>
+        Change Status <span class="caret"></span>
+      </button>
+      <div ngbDropdownMenu role="menu" aria-labelledby="changeStatusLink">
+      <ul class="list-unstyled components">
+        <li><a class="dropdown-item" (click)="actionListener('awaiting')">Awaiting <span class="pull-right badge badge-important">
+        </span></a>
+        </li>
+        <li><a class="dropdown-item" (click)="actionListener('serviceissue')">Service Issue <span
+          class="pull-right badge badge-important">
+        </span></a>
+        </li>
+        <li ><a class="dropdown-item" (click)="actionListener('cancelled')">Cancelled
+          <span class="pull-right badge badge-important">
+          </span></a> 
+        </li>
+        <li ><a class="dropdown-item" (click)="actionListener('scanned')">Scanned <span
+          class="pull-right badge badge-important">
+        </span></a>
+        </li>
+      </ul>
+      </div>
+    <!-- </div> -->

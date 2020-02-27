@@ -1,0 +1,24 @@
+<div>
+  <div class="modal-header">
+    <div class="modal-title">
+      Editing:- ID # {{id}}
+    </div>
+    <button type="button" class="close-btn" (click)="cancel()"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body">
+  <mat-tab-group>
+    <mat-tab label="Product Info">
+      <app-product-info-create (idEmit)="getId($event)"></app-product-info-create>
+    </mat-tab>
+    <mat-tab label="Scan&Pack Options">
+      <app-scan-pack-create-product></app-scan-pack-create-product>
+    </mat-tab>
+    <mat-tab label="Inventory/Kit Options">
+      <app-inventory-kit-product></app-inventory-kit-product>
+    </mat-tab>
+    <mat-tab label="Product Activity Log">
+      <app-activity-log-product></app-activity-log-product>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+</div>

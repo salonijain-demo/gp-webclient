@@ -1,0 +1,137 @@
+<div class="row">
+  <div class="col-md-6">
+    <legend>Shipping-Easy Credentials</legend>
+    <div class="form-group">
+      <label class="control-label col-md-4">API Key</label>
+
+      <div class="controls col-md-8">
+        <input name="api_key" xs-input-sync ng-model="stores.single.api_key" type="text" (blur)="update_single_store(true)"
+               class="form-control input-style" value="" placeholder="paste API Key here" required/>
+        <i class="fas fa-check right-icon" ng-if= "stores.single.api_key.length == 32 && stores.single.api_key!= null"></i>
+        <!-- <i class="fas fa-exclamation-triangle icon-remove" popover-trigger="mouseenter"
+             groov-popover="The details you have entered may not be valid. Please ensure the entire string is included and no extra characters or spaces are entered before or after. In other words, we need the whole key and pass and nothing but the key and pass." ng-if= "stores.single.api_key.length != 32 && stores.single.api_key!= null"></i> -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-md-4">API Secret</label>
+
+      <div class="controls col-md-8">
+        <input name="api_secret" xs-input-sync ng-model="stores.single.api_secret" type="text"
+               (blur)="update_single_store(true)" class="form-control input-style" value="" placeholder="paste API Secret here" required/>
+        <i class="fas fa-check right-icon" ng-if= "stores.single.api_secret.length == 64 && stores.single.api_secret!= null"></i>
+        <!-- <i class="fas fa-exclamation-triangle icon-remove" popover-trigger="mouseenter"
+             groov-popover="The details you have entered may not be valid. Please ensure the entire string is included and no extra characters or spaces are entered before or after. In other words, we need the whole key and pass and nothing but the key and pass." ng-if= "stores.single.api_secret.length != 64 && stores.single.api_secret!= null"></i>        -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <legend>Import Orders with following statuses</legend>
+    <div class="form-group">
+      <label class="control-label col-md-4">Orders List</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.import_ready_for_shipment"
+             groov-click="update_single_store(true)"></div>
+        <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+             groov-popover="This will import orders from the main orders list."></i> -->
+      </div>
+    </div> 
+     <div class="form-group">
+      <label class="control-label col-md-4">Ready to Ship</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.ready_to_ship" groov-click="update_single_store(true)"></div>
+         <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter" groov-popover="Imports orders which have been moved to the Ready to Ship list. If orders are packed before shipping labels are printed this is the recommended setting."></i> -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-4">Shipped</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.import_shipped" groov-click="update_single_store(true)"></div>
+         <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter" groov-popover="Orders for which the shipping label has been created. If shipping labels are printed in batches before packing orders this is the recommended setting."></i> -->
+      </div>
+    </div>
+    <legend></legend>
+    <div class="form-group">
+      <label class="control-label col-md-4">On Demand Import</label>
+
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.on_demand_import" groov-click="update_single_store(true)"></div>
+        <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+           groov-popover="When enabled, scanned orders that have not been previously imported will be queued for import in the background while the packer continues to scan other orders."/> -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-4">Generate Barcode from SKU</label>
+
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.gen_barcode_from_sku" groov-click="update_single_store(true)"></div>
+        <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+           groov-popover="If your Barcodes match your SKU, you can enable this option to have GroovePacker automatically generate Barcodes when new products are found during order imports."/> -->
+      </div>
+    </div>
+
+    <div class="form-group" ng-if="stores.single.gen_barcode_from_sku == true">
+      <div class="form-group">
+      <label class="control-label col-md-4">Import UPC if available</label>
+
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.import_upc" groov-click="update_single_store(true)"></div>
+        <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+           groov-popover="If your products use a mix of internal barcodes which match the SKU and regular UPC barcodes which are associated with your products in your order manager, this option can be used to import the UPC when it exists. When no UPC is found it will be generated from the SKU. If you do not have any UPC codes associated with your items in your order manager please leave this disabled to increase import speed."/> -->
+      </div>
+      </div>
+    </div>  
+
+    <div class="form-group">
+      <label class="control-label col-md-4">Extended product data</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.include_product" groov-click="include_product()"></div>
+        <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+           groov-popover="Enable this switch to automatically create Kits and Aliases for products during order imports"/> -->
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-4">ShippingEasy Printing Popup</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.popup_shipping_label" groov-click="popup_shipping_label()"></div>
+        <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+           groov-popover="If the packer will be printing a shipping label after packing each order, you can enable this switch to display the order in ShippingEasy once packing completes."/> -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-md-4">Allow duplicate order id</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.allow_duplicate_id" groov-click="update_single_store(true)"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-4">Split Order</label>
+
+      <div class="controls col-sm-3" dropdown>
+        <button class="dropdown-toggle groove-button">
+          <span ng-show="stores.single.split_order =='disabled' || stores.single.split_order =='0'">Disabled</span>
+          <span
+            ng-show="stores.single.split_order =='verify_together'">Verify Together</span>
+          <span ng-show="stores.single.split_order =='verify_separately'">Verify Separately</span>
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu">
+          <li tooltip="Split shipments are ignored. Only the original order is shown (not recommended)">
+            <a class="dropdown-toggle" (click)="stores.single.split_order = 'disabled'; update_single_store(true)">Disabled</a>
+          </li>
+          <li tooltip="All order items from all shipments created from a split order will be displayed and verified as a single order in GroovePacker.">
+            <a class="dropdown-toggle" (click)="stores.single.split_order = 'verify_together'; update_single_store(true)">Verify Together</a>
+          </li>
+          <li tooltip="All shipments created from a split order will appear as separate orders in GroovePacker. Each shipment of an order will be give an suffix: -1, -2, -3, etc.">
+            <a class="dropdown-toggle" (click)="stores.single.split_order = 'verify_separately'; update_single_store(true); update_single_store(true)">Verify Separately</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

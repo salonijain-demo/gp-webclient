@@ -1,0 +1,62 @@
+<div id="notification" groov-persist-notification style="margin-left: -2.8%;"></div>
+<div class="col-lg-12 container-fluid min-header-width">
+  <div class="box-outer top-nav-bar">
+  <div class="row">
+      <div class="box"></div>
+      <div class="col-lg-11 col-md-11 col-sm-10">
+        <ul class="nav remove_popup_margin list-unstyled components">
+          <li class="navbar-brand nav-li col-lg-5 col-md-4">
+            <a href="#/home"><img src="/assets/images/logo.png" alt="GroovePacker"></a>
+          </li>
+          <li ng-show="current_user.can('access_orders')" class="col-lg-1 nav-li">
+            <a ng-class="{active:is_active_tab('orders')}" (click)="openOrders()">
+              Orders<br>
+              <img class="icons" src="/assets/images/document.png">
+            </a>
+          </li>
+          <li ng-show="current_user.can('access_products')" class="col-lg-1 nav-li">
+            <a ng-class="{active:is_active_tab('products')}">
+              Products<br>
+              <img class="icons" src="/assets/images/db.png"(click)="openProducts()">
+            </a>
+          </li>
+          <li ng-show="current_user.can('access_settings')" class="col-lg-1 nav-li">
+            <a ng-class="{active:is_active_tab('settings')}" (click)="openSettings()">
+              Settings<br>
+              <img class="icons" src="/assets/images/settings.png">
+            </a>
+          </li>
+          <li ng-show="current_user.can('access_scanpack')" class="col-lg-2 nav-li">
+            <a ng-class="{active:is_active_tab('scanpack')}" (click)="openScanPack()">
+              Scan and Pack<br>
+              <img class="icons" src="/assets/images/box.png">
+            </a>
+          </li>
+          <li class="col-lg-1 nav-li" id="import_tab" ng-if="current_user.get()['role']['import_orders']">
+            <a href="" (click)='import_all_orders()' ng-show="import_summary.import_info.status !='in_progress'">
+              Import Orders<br>
+              <img class="icons" src="/assets/images/cloud.png">
+            </a>
+            <a href="" ng-show="import_summary.import_info.status =='in_progress'">
+              <i class="fa fa-refresh groov-refresh-spin"></i>
+              Check Status<br>
+              <img class="icons" src="/assets/images/cloud.png">
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div ngbDropdown class="col-lg-1 col-md-3 col-sm-2 set_dropdwoan_width">
+        <button class="groove-button" id="dropdownMenu" ngbDropdownToggle>
+          <span><img class="arrow-icon" src="/assets/images/down.png"></span>
+        </button>
+        <div ngbDropdownMenu role="menu" aria-labelledby="dropdownMenu">
+          <ul class="list-unstyled components">
+            <li><a class="dropdown-item" (click)='sign_out()'>Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div groov-notification></div> -->

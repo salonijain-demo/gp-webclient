@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-lg-2 col-md-2">
+    <button (click)="showSelect()">
+      <span *ngIf="selectAll">Select All</span>
+      <span *ngIf="!selectAll">Select None</span>
+    </button>
+  </div>
+  <div class="col-lg-7 col-md-9">
+    <div class="col-md-9 col-md-offset-3">
+      <input type="text" [(ngModel)]="stores.setup.search" autofocus="autofocus" id="store-search-query"
+        class="form-control search-box" placeholder="Search">
+    </div>
+  </div>
+  <div class="col-lg-1 col-md-1" ngbDropdown>
+    <button type="button" class="groove-button" id="editDropdown" ngbDropdownToggle>
+      Edit <span class="caret"></span>
+    </button>
+    <div aria-labelledby="editDropdown" role="menu" ngbDropdownMenu>
+      <ul class="list-unstyled components">
+        <li><a class="dropdown-item" (click)="store_delete()">Delete</a></li>
+        <li><a class="dropdown-item" (click)="store_duplicate()">Duplicate</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-2" ngbDropdown>
+    <button type="button" class="groove-button" id="changeDropdown" ngbDropdownToggle>
+      Change Status <span class="caret"></span>
+    </button>
+    <div aria-labelledby="changeDropdown" role="menu" ngbDropdownMenu>
+      <ul class="list-unstyled components">
+        <li><a class="dropdown-item" (click)="store_change_status('active')">Active</a></li>
+        <li><a class="dropdown-item" (click)="store_change_status('inactive')">Inactive</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <app-data-grid (editData)="getEditedData($event)" (selected)="getSettingSelected($event)" *ngIf="showAllStoreSettingData" [settingData]="showAllStoreSettingData"></app-data-grid>
+  </div>
+</div>

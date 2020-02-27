@@ -1,0 +1,65 @@
+<div>
+  <!-- <div class="col-lg-12">
+    <div class="row">
+      <app-base></app-base>
+    </div>
+  </div> -->
+
+      <div class="col-lg-10 general-settings" ng-controller="modifyPlanCtrl">
+        <div class="container-fluid">
+          <div class="row">
+            <h3 class="modifyPlan"><b>Modify Your Plan</b></h3><br/>
+          </div>
+          <div class="col-lg-10 col-md-10 col-md-offset-1">
+            <div class="row">
+              <div class="col-md-5 col-md-offset-1 total-user-section">
+                <i class="groove-fa fa fa-users fa-5x"></i>
+                <ul>
+                  <li class="left">
+                    <div class="btn-group-vertical">
+                      <button type="button" (click)="calculate('+')"  class="btn transparent no_of_users_asc">
+                        <i class="fa fa-chevron-up arrow bt"  aria-hidden="true" ng-style="{ 'color' : modify.allow_delete  ?  'red' : '#17C017'}"></i>
+                      </button>
+                      <button type="button" class="btn transparent white-bg">
+                        <span class="no_of_users_label">{{modify.no_of_users}}</span>
+                        <input type="hidden" class="no_of_users" [(ngModel)]="modify.no_of_users" name="no_of_users" value="{{modify.no_of_users}}" />
+                      </button>
+                      <button type="button" (click)="calculate('-')"  class="btn transparent no_of_users_dec">
+                        <i class="fa fa-chevron-down arrow bt " aria-hidden="true" ng-style="{ 'color' : modify.allow_delete  ?  'red' : '#17C017'}"></i>
+                      </button>
+                    </div>
+                  </li>
+                  <li class="right">
+                      <h3>Total Users</h3>
+                      <p>$50/User/Month</p>
+                  </li>
+                </ul>
+                <h6>Additional users can be added as needed.The minimum billing period for a user is 1 month.</h6>
+              </div>
+              <div class="col-md-5 col-md-offset-1 total-user-section-right">
+                <i class="fa fa-user user-icon"></i>
+                <button class="annual check_annual" (click)="annual(modify.is_annual)"  ng-style="{ 'background' : modify.is_annual ?  '#808080' : '#17C017'}">Save $<span class="discount_annually">{{modify.discount}}</span></button>
+                <h3>Lock in a 10% Discount</h3>
+                <p>With an Annual Plan</p>
+                <h5>This is a pre-payment for one year of service with the number of users currently on the plan.Pre-payed users can not be removed.</h5>
+              </div>
+              <div class="footer_text">
+                <h1>Plan Total $ <span class="price_label ng-binding">{{modify.price}}</span>/{{modify.calender}}
+                  <button (click)="update_plan()" class="btn apply_btn">
+                    Apply Changes & Update Plan
+                  </button>
+                  
+                  <i mat-raised-button
+                    matTooltip="A request to remove 1 user will be submitted. Please be sure that you have removed the un-needed user(s) from the Users list. In order for the user(s) to be removed from the plan, the number of users in the list must not exceed the number of users on the plan."
+                    matTooltipClass="example-tooltip-red text-secondary"
+                    class="example-button">
+                    <i class="fa fa-info-circle"></i>                      
+                  </i>
+                  </h1>
+                <p>Please note: Custom maintenance, legacy pricing plans and other plan additions besides users may affect the plan total. </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

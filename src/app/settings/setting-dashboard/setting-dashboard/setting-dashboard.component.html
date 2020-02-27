@@ -1,0 +1,132 @@
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-lg-12">
+      <app-base></app-base>
+    </div>
+    <div class="col-lg-2">
+      <div class="sidebar panel-body-new cursor">
+        <div ngbDropdown>
+          <ul class="list-unstyled components">
+            <li><a (click)="dropdownList(true,false,false,false,false)">Store Settings</a></li>
+            <div *ngIf="storeSettingsDropdown">
+              <ul class="list-unstyled components">
+                <li><a class="dropdown-item" (click)="storeSetting(true)">Show All</a></li>
+                <li><a class="dropdown-item" (click)="showModal(createStoreDropdown)">Create Store</a></li>
+                <li><a class="dropdown-item">Import Orders</a></li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+
+        <div ngbDropdown>
+          <ul class="list-unstyled components">
+            <li><a (click)="dropdownList(false,true,false,false,false)">Users & Permissions</a></li>
+            <div *ngIf="settingsUserPermission">
+              <ul class="list-unstyled components">
+                <li><a class="dropdown-item" (click)="userPermission(true,false)">Show All</a></li>
+                <li><a class="dropdown-item" (click)="showModal(createUserDropdown)">Create User</a></li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+
+        <div ngbDropdown>
+          <ul class="list-unstyled components">
+            <li><a (click)="dropdownList(false,false,true,false,false)">System Settings</a></li>
+            <div *ngIf="systemSettingsDropdown">
+              <ul class="list-unstyled components">
+                <li><a class="dropdown-item" (click)="systemList(true,false)">General Preferences</a></li>
+                <li><a class="dropdown-item" (click)="systemList(false,true)">Scan & Pack Options</a></li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+
+        <div ngbDropdown>
+        <ul class="list-unstyled components">
+            <li><a (click)="dropdownList(false,false,false,true,false)">Backup & Export</a></li>
+            <div *ngIf="backupExportDropdown">
+              <ul class="list-unstyled components">
+                <li><a class="dropdown-item" (click)="backupList(true,false,false,false,false)">Backup & Restore</a></li>
+                <li><a class="dropdown-item" (click)="backupList(false,true,false,false,false)">Exceptions Export</a></li>
+                <li><a class="dropdown-item" (click)="backupList(false,false,true,false,false)">Order Export</a></li>
+                <li><a class="dropdown-item" (click)="backupList(false,false,false,true,false)">User Stats Export</a></li>
+                <li><a class="dropdown-item" (click)="backupList(false,false,false,false,true)">Daily Packed % Report</a></li>
+              </ul>
+            </div>
+        </ul>
+        </div>
+
+          <div ngbDropdown>
+            <ul class="list-unstyled components">
+              <li><a (click)="dropdownList(false,false,false,false,true)">Account Settings</a></li>
+              <div *ngIf="accountSettingsDropdown">
+                <ul class="list-unstyled components">
+                  <li><a class="dropdown-item" (click)="accountList(true,false,false)">Payment Method</a></li>
+                  <li><a class="dropdown-item" (click)="accountList(false,true,false)">Modify Plan</a></li>
+                  <li><a class="dropdown-item" (click)="accountList(false,false,true)">Cost Calculator</a></li>
+                </ul>
+              </div>
+            </ul>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-lg-10">
+      <div class="col-lg-12">
+        <div class="row">
+          <app-show-all-store-settings *ngIf="showAllSetting"></app-show-all-store-settings>
+          <app-show-all-user-permission *ngIf="showAllUser"></app-show-all-user-permission>
+          <app-create-user-permission *ngIf="createUser"></app-create-user-permission>
+          <app-general-preference *ngIf="general"></app-general-preference>
+          <app-scan-pack-options *ngIf="scan"></app-scan-pack-options>
+          <app-backup-restore *ngIf="restore"></app-backup-restore>
+          <app-exceptions-export *ngIf="exception"></app-exceptions-export>
+          <app-order-export *ngIf="order"></app-order-export>
+          <app-user-stats-export *ngIf="userStats"></app-user-stats-export>
+          <app-daily-packed-report *ngIf="dailyPacked"></app-daily-packed-report>
+          <app-payment-method *ngIf="payment"></app-payment-method>
+          <app-modify-plan *ngIf="modify"></app-modify-plan>
+          <app-cost-calculator *ngIf="cost"></app-cost-calculator>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #createStoreDropdown let c="close" d="dismiss">
+  <div class="modal-header">
+    <div class="modal-title">
+      <span ng-if="edit_status">
+        <!-- Currently Updating -->
+        <!-- {{stores.single.name}} -->
+      </span>
+      <span ng-hide="edit_status">Create Store</span>
+    </div>
+    <button type="button" class="close-btn" (click)="cancel()"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body">
+    <app-create-store-settings></app-create-store-settings>
+  </div>
+<div class="modal-footer">
+  <button (click)="ok()" class="modal-save-button" translate>save&close</button>
+  <button (click)="cancel()" class="modal-cancel-button" translate>cancel</button>
+</div>
+</ng-template>
+
+<ng-template #createUserDropdown let c="close" d="dismiss">
+  <div class="modal-header">
+    <div class="modal-title">
+      Create new User
+    </div>
+    <button type="button" class="close-btn" (click)="cancel()"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body">
+    <app-create-user-permission></app-create-user-permission>
+  </div>
+  <div class="modal-footer">
+    <button (click)="ok()" class="modal-save-button" translate>save&close</button>
+    <button (click)="cancel()" class="modal-cancel-button" translate>cancel</button>
+  </div>
+</ng-template>

@@ -1,0 +1,19 @@
+<div>
+  <mat-tab-group>
+    <mat-tab label="User Info">
+      <app-user-info-setting (roles)="getRole($event)"></app-user-info-setting>
+    </mat-tab>
+    <mat-tab label="Products">
+      <app-product-user-setting *ngIf="role" [roles]="role"></app-product-user-setting>
+    </mat-tab>
+    <mat-tab label="Orders">
+      <app-order-user-setting *ngIf="role" [roles]="role"></app-order-user-setting>
+    </mat-tab>
+    <mat-tab label="User">
+      <app-user-create-setting *ngIf="role" [roles]="role"></app-user-create-setting>
+    </mat-tab>
+    <mat-tab label="System">
+      <app-system-user-setting *ngIf="role" [roles]="role"></app-system-user-setting>
+    </mat-tab>
+  </mat-tab-group>
+</div>

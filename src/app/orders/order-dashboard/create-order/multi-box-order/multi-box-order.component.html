@@ -1,0 +1,48 @@
+<div class="container-fluid multibox-info" ng-if="orders.single.boxes.length > 0">
+  <div class="row">
+    <!-- <span class="ship_id">Shipment ID: {{orders.single.basicinfo.shipment_id}}</span> -->
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-md-6" ng-click="">
+      <div class="printing_slip_dropdown" dropdown="">
+          <button type="button" class="groove-button dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+            <span ng-if="current_packing_type == null"> Print </span>
+            <span ng-if="current_packing_type == 'all_boxes'"> Print Packing Slips for All Boxes </span>
+            <span ng-if="current_packing_type == 'selected_boxes'"> Print Packing Slips for Selected Boxes </span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-click="set_packing_type('all_boxes')">Print Packing Slips for All Boxes</a>
+            </li>
+            <li><a ng-click="set_packing_type('selected_boxes')">Print Packing Slips for Selected Boxes</a>
+            </li>
+          </ul>
+        </div>
+      <i class="glyphicon glyphicon-print" ng-click="print_packing_slip()" style="color: #fff; background: #8ac007; padding: 5px;border-radius: 8px;"></i>
+    </div>  
+  </div>
+
+  <br><hr>
+  <div>
+    <div class="row">
+      <div class="col-md-3 col-lg-3">
+        <div class="left-boxes">
+          <h4>Box</h4>
+          <ul>
+            <!-- <li ng-repeat="box in orders.single.boxes" ng-click="set_selected_box(box.id, $event)" ng-class="{ active: selected_box.includes(box.id) }">{{box.name}} -->
+            <a class="fas fa-trash trash_btn" ng-click="delete_single_box(box.id)" ></a>
+            <!-- </li> -->
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9">
+        <div groov-data-grid="gridOptionsForBox" groov-list="filter_box_data"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid multibox-info" ng-if="!orders.single.boxes.length > 0">
+  <h2>No Boxes Found</h2>
+</div>

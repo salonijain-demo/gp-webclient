@@ -1,0 +1,23 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <fieldset>
+        <legend>Product Activity Log</legend>
+       <div ng-class="{conditionalScroll:products.single.activities.length>25}">
+          <div class="form-group" ng-repeat="activity in products.single.activities">
+          <!-- {{ activity.action}} by: {{ activity.username }} on {{ activity.activitytime | date:'EEEE MM/dd/yyyy hh:mm:ss a'}} -->
+          </div>
+        </div>  
+      </fieldset>
+    </div>
+  </div>
+
+</div>
+
+<!-- <style type="text/css">
+  .conditionalScroll{
+    height: 225px; 
+    overflow: scroll;
+  }
+</style> -->

@@ -1,0 +1,204 @@
+<div>
+  <!-- <button id='show' ej-button class='e-flat' (click)='show()'> Add Column </button> -->
+  <ejs-grid
+    #grid
+    *ngIf="showOrder"
+    (change)="edit_change($event)"
+    (click)='select($event)'
+    [pageSettings]='pageSettings'
+    [dataSource]='orderDataValues'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [showColumnChooser]= 'true'
+    [allowPaging]="true"
+    (contextmenu)="show()">
+    <e-columns>
+      <e-column field="id" headerText= 'OrderID' [visible] = "false"></e-column>
+      <e-column field= 'ordernum' headerText= 'Order#'>
+        <ng-template #template let-data *ngFor = "let data of orderDataValues">
+          <a (click)="openModal(orderModal)">{{data.ordernum}}</a>
+        </ng-template> 
+        <!-- <div #container class='root-container'></div>
+        <ejs-dialog id='dialog' #ejDialog isModal=true content='This is a Dialog with content' 
+          [target]='targetElement' width='250px'>
+        </ejs-dialog> -->
+      </e-column>
+      <e-column field= 'store_name' headerText= 'Store'></e-column>
+      <e-column field= 'notes' headerText= 'Notes'></e-column>
+      <e-column field= 'order_date' headerText= 'OrderDate'></e-column>
+      <e-column field= 'itemslength' headerText= 'Items'></e-column>
+      <e-column field= 'recipient' headerText= 'Recipient'></e-column>
+      <e-column field= 'status' headerText= 'Status'></e-column>
+      <e-column field= 'city' headerText= 'City'></e-column>
+      <!-- <e-column field= 'zip' headerText= 'Zip'></e-column> -->
+      <e-column field= 'country' headerText= 'Country' [visible]='false'></e-column>
+      <e-column field= 'email' headerText= 'Email' [visible]='false'></e-column>
+      <e-column field= 'state' headerText= 'State' [visible]='false'></e-column>
+      <e-column field= 'tracking_num' headerText= 'TrackingID' [visible]='false'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="settingDataValues"
+    (change)="edit_change($event)"
+    (click)="select($event)"
+    [dataSource]='settingDataValues'
+    [selectionSettings]='selectionOptions'
+    [pageSettings]='pageSettings'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'Name' headerText= 'Name'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'Type' headerText= 'Type'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="userSettingDataValues"
+    (change)="edit_change($event)"
+    (click)="select($event)"
+    [dataSource]='userSettingDataValues'
+    [pageSettings]='pageSettings'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'Username' headerText= 'Username'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'LastActivity' headerText= 'LastActivity'></e-column>
+      <e-column field= 'Type' headerText= 'Type'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="productDataValues"
+    (change)="edit_change($event)"
+    (click)='select($event)'
+    [pageSettings]='pageSettings'
+    [dataSource]='productDataValues'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'Image' headerText= 'Image'></e-column>
+      <e-column field= 'SKU' headerText= 'SKU'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'ItemName' headerText= 'Item Name'></e-column>
+      <e-column field= 'Barcode' headerText= 'Barcode'></e-column>
+      <e-column field= 'PrimaryLocation' headerText= 'Primary Location'></e-column>
+      <e-column field= 'Store' headerText= 'Store'></e-column>
+      <e-column field= 'Qoh' headerText= 'Qoh'></e-column>
+      <e-column field= 'AvblInv' headerText= 'AvblInv'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="productDataValue"
+    (change)="edit_change($event)"
+    (click)='select($event)'
+    [pageSettings]='pageSettings'
+    [dataSource]='productDataValue'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'ProductId' headerText= 'ProductId' [visible]='false'></e-column>
+      <e-column field= 'SKU' headerText= 'SKU'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'ItemName' headerText= 'Item Name'></e-column>
+      <e-column field= 'Barcode' headerText= 'Barcode'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="inactiveNewProductData"
+    (change)="edit_change($event)"
+    (click)='select($event)'
+    [pageSettings]='pageSettings'
+    [dataSource]='inactiveNewProductData'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'ProductId' headerText= 'ProductId' [visible]='false'></e-column>
+      <e-column field= 'Image' headerText= 'Image'></e-column>
+      <e-column field= 'ItemName' headerText= 'Item Name'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'SKU' headerText= 'SKU'></e-column>
+      <e-column field= 'Barcode' headerText= 'Barcode'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="itemOrderDataValues"
+    (change)="edit_change($event)"
+    (click)='select($event)'
+    [pageSettings]='pageSettings'
+    [dataSource]='itemOrderDataValues'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'PrimaryImage' headerText= 'Primary Image'></e-column>
+      <e-column field= 'Product' headerText= 'Product'></e-column>
+      <e-column field= 'PrimarySku' headerText= 'Primary SKU'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'PrimaryBarcode' headerText= 'Primary Barcode'></e-column>
+      <e-column field= 'QtyOrdered' headerText= 'Qty Ordered'></e-column>
+      <e-column field= 'PrimaryLocation' headerText= 'Primary Location'></e-column>
+    </e-columns>
+  </ejs-grid>
+
+  <ejs-grid
+    #grid
+    *ngIf="showProduct"
+    (change)="edit_change($event)"
+    [dataSource]='createProductDataValues'
+    [pageSettings]='pageSettings'
+    [selectionSettings]='selectionOptions'
+    [editSettings]='editSettings'
+    [allowReordering]='true'
+    [allowPaging]="true">
+    <e-columns (rowClick)="getRowData()">
+      <e-column field= 'WarehouseName' headerText= 'Warehouse Name'></e-column>
+      <e-column field= 'Status' headerText= 'Status'></e-column>
+      <e-column field= 'AvailableInv' headerText= 'Available Inv'></e-column>
+      <e-column field= 'AllocatedInv' headerText= 'Allocated Inv'></e-column>
+      <e-column field= 'Qoh' headerText= 'Qoh'></e-column>
+      <e-column field= 'SoldInv' headerText= 'Sold Inv'></e-column>
+      <e-column field= 'PrimaryLocation' headerText= 'Primary Location'></e-column>
+      <e-column field= 'SecondaryLocation' headerText= 'Secondary Location'></e-column>
+      <e-column field= 'TertiaryLocation' headerText= 'Tertiary Location'></e-column>
+      <e-column field= 'OverrideGlobalInvAlertLvl' headerText= 'Override Global Inv Alert Lvl'></e-column>
+      <e-column field= 'InvAlertLevel' headerText= 'Inv Alert Level'></e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<ng-template #orderModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="modal-title">Order # Details</div>
+    <button type="button" class="close-btn" (click)="cancel()"><i class="fa fa-close"></i></button>
+  </div>
+  <div class="modal-body" style="padding-top: 40px;">
+    <!-- <app-create-order ></app-create-order> -->
+  </div>
+  <div class="modal-footer" style="padding-top: 15px;">
+    <button (click)="save(confirmModal)" class="modal-save-button">Save & Close</button>
+    <button (click)= "cancel()" class="modal-cancel-button" value="Submit" data-dismiss="modal">Cancel</button>
+  </div>
+</ng-template>

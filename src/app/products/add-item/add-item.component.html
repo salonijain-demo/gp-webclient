@@ -1,0 +1,7 @@
+<div>
+<div class="modal-body">
+  <button (click)="addItems()">Save & Close</button>
+  <button (click)="closeModal()">Cancel</button>
+  <app-data-grid (editData)="getEditedData($event)" (selected)="getProductSelected($event)" *ngIf="productList" [productDatas]="productList"></app-data-grid>
+</div>
+</div>

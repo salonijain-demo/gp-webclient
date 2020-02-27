@@ -1,0 +1,1035 @@
+<div class="col-lg-10 col-md-10">
+  <div class="row">
+
+    <div class="col-lg-12 col-xs-12">
+      <h3>Scan & Pack Options</h3>
+
+      <div class="form-horizontal general-settings-form">
+        <fieldset>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">
+              Post-Scanning Functions 1
+              <!-- {{translations.labels.ask_tracking_number}} -->
+            </label>
+
+            <div class="controls col-lg-4 col-sm-4 form-inline " ngbDropdown>
+              <button class="groove-button label label-default" ng-class="{'label-success':scan_pack.settings.post_scanning_option=='Verify',
+                  'label-warning':scan_pack.settings.post_scanning_option=='Record',
+                  'label-info':scan_pack.settings.post_scanning_option=='PackingSlip',
+                  'label-danger':scan_pack.settings.post_scanning_option=='Barcode'}"
+                  id="scanningOneDropdown" ngbDropdownToggle>
+                <span *ngIf="scan_pack.settings.post_scanning_option=='None'" translate>
+                  None
+                </span>
+                <span *ngIf="scan_pack.settings.post_scanning_option=='Verify'" translate>
+                  Shipping Label Verification
+                </span>
+                <span *ngIf="scan_pack.settings.post_scanning_option=='Record'" translate>
+                  Record Tracking Number
+                </span>
+                <span *ngIf="scan_pack.settings.post_scanning_option=='PackingSlip'" translate>
+                  Print Packing Slip
+                </span>
+                <span *ngIf="scan_pack.settings.post_scanning_option=='Barcode'" translate>
+                  Print Order Barcode
+                </span>
+                <span class="caret"></span>
+              </button>
+              <div role="menu" aria-labelledby="scanningOneDropdown" ngbDropdownMenu>
+                <ul class="list-unstyled components">
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt('None')" translate>
+                    None
+                  </a></li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt('Verify')" translate>
+                    Shipping Label Verification
+                  </a></li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt('Record')" translate>
+                    Record Tracking Number
+                  </a></li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt('PackingSlip')" translate>
+                    Print Packing Slip
+                  </a></li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt('Barcode')" translate>
+                    Print Order Barcode
+                  </a></li>
+                </ul>
+              </div>
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter" popover-placement="bottom"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.ask_post_scanning_functions}}" -->
+            </div>
+          </div>
+
+               <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">
+              Post-Scanning Functions 2
+              <!-- {{translations.labels.ask_tracking_number_second}} -->
+            </label>
+
+            <div class="controls col-lg-4 col-sm-4 form-inline " ngbDropdown>
+              <button class="groove-button label label-default" ng-class="{'label-success':scan_pack.settings.post_scanning_option_second=='Verify',
+                  'label-warning':scan_pack.settings.post_scanning_option_second=='Record',
+                  'label-info':scan_pack.settings.post_scanning_option_second=='PackingSlip',
+                  'label-danger':scan_pack.settings.post_scanning_option_second=='Barcode'}"
+                  id="packingSlipDropdown" ngbDropdownToggle>
+                <span *ngIf="scan_pack.settings.post_scanning_option_second=='None'" translate>None</span>
+                <span *ngIf="scan_pack.settings.post_scanning_option_second=='Verify'" translate>Shipping Label Verification</span>
+                <span *ngIf="scan_pack.settings.post_scanning_option_second=='Record'" translate>Record Tracking Number</span>
+                <span *ngIf="scan_pack.settings.post_scanning_option_second=='PackingSlip'"
+                      translate>Print Packing Slip</span>
+                <span *ngIf="scan_pack.settings.post_scanning_option_second=='Barcode'" translate>Print Order Barcode</span>
+                <span class="caret"></span>
+              </button>
+              <div role="menu" aria-labelledby="packingSlipDropdown" ngbDropdownMenu>
+                <ul class="list-unstyled components">
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt_second('None')" translate>None</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt_second('Verify')" translate>Shipping Label Verification</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt_second('Record')" translate>Record Tracking Number</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt_second('PackingSlip')" translate>Print Packing Slip</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_post_scanning_opt_second('Barcode')" translate>Print Order Barcode</a>
+                  </li>
+                </ul>
+              </div>
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter" popover-placement="bottom"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.ask_post_scanning_functions_second}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Cue orders for Scan and Pack using</label>
+
+            <div class="controls col-lg-4 col-sm-4 form-inline " ngbDropdown>
+              <button class="groove-button label label-default" ng-class="{'label-success':scan_pack.settings.scan_by_hex_number==true,
+                  'label-warning':scan_pack.settings.scan_by_tracking_number==true}"
+                  id="scanDropdown" ngbDropdownToggle>
+                <span *ngIf="scan_pack.settings.scan_by_tracking_number==false && scan_pack.settings.scan_by_hex_number==false" translate>Order Number Barcode</span>
+                <span *ngIf="scan_pack.settings.scan_by_tracking_number==true" translate>Tracking Number Barcode</span>
+                <span *ngIf="scan_pack.settings.scan_by_hex_number==true" translate>ShipStation Scan to View Barcode</span>
+                <span class="caret"></span>
+              </button>
+              <div role="menu" aria-labelledby="scanDropdown" ngbDropdownMenu>
+                <ul class="list-unstyled components">
+                  <li><a class="dropdown-item" (click)="change_pre_scanning_opt('None')" translate>Order Number Barcode</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_pre_scanning_opt('tracking')" translate>Tracking Number Barcode</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_pre_scanning_opt('hex')" translate>ShipStation Scan to View Barcode</a>
+                  </li>
+                </ul>
+              </div>
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter" popover-placement="bottom"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.cue_order_for_scan}}" -->
+            </div>
+          </div>
+
+        <!--   <div class="form-group">
+            <label class="control-label col-sm-3" style="padding-top: 0px;">{{translations.labels.cue_orders_for_scanpack}}</label>
+
+            <div class="controls col-sm-3 col-md-2 form-inline">
+              <div toggle-switch [(ngModel)]="scan_pack.settings.scan_by_tracking_number"
+                   (click)="update_settings()"></div>
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter" groov-popover="{{translations.tooltips.cue_orders_optons}}"></i>
+            </div>
+          </div>
+ -->
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Click Scanning</label>
+
+            <div class="controls form-inline pull-left" ng-class='{"col-sm-1": scan_pack.settings.enable_click_sku, "col-sm-2": !scan_pack.settings.enable_click_sku }'>
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.enable_click_sku"
+                  [(ngModel)]="scan_pack.settings.enable_click_sku"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.enable_click_sku" (click)="update_settings()"></div> -->
+              <!-- <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter"
+                 ng-if= '!scan_pack.settings.enable_click_sku'
+                  groov-popover="{{translations.tooltips.enable_click_sku}}"></i> -->
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-4 col-lg-offset-0 col-md-offset-1"
+                 *ngIf="scan_pack.settings.enable_click_sku">
+              <button (click)="per_product_setting('enable_click_sku')"
+                      class="groove-button label label-default label-success">Per Product Setting
+              </button>
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Type-In Counts</label>
+
+            <div class="controls form-inline" ng-class="{'col-md-1': scan_pack.settings.type_scan_code_enabled, 'col-md-2': !scan_pack.settings.type_scan_code_enabled}">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.type_scan_code_enabled"
+                  [(ngModel)]="scan_pack.settings.type_scan_code_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.type_scan_code_enabled"
+                   (click)="update_settings()"></div> -->
+              <!-- <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;padding-right: 2px;"
+                 popover-trigger="mouseenter"
+                   ng-if='!scan_pack.settings.type_scan_code_enabled'
+                  groov-popover="{{translations.tooltips.type_in_counts}}"></i> -->
+            </div>
+            <div class="col-sm-3 col-md-2 col-lg-4"
+                 *ngIf="scan_pack.settings.type_scan_code_enabled">
+              <button (click)="per_product_setting('type_scan_code')"
+                      class="groove-button label label-default label-success">Per Product Setting
+              </button>
+            </div>
+            <div class="col-sm-2" *ngIf="scan_pack.settings.type_scan_code_enabled">
+              <input class="form-control input-style" type="text" (blur)="update_settings()"
+                     [(ngModel)]="scan_pack.settings.type_scan_code"/>
+            </div>
+
+            <div class="info col-sm-2">
+              <a (click)="scan_pack_pdf('type_scan')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <!-- <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.type_scan_code}}"></i> -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Barcode suffix removal</label>
+            <div class="col-lg-2 controls form-inline" ng-class='{"col-sm-1": scan_pack.settings.escape_string_enabled, "col-sm-2": !scan_pack.settings.escape_string_enabled }'>
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.escape_string_enabled"
+                  [(ngModel)]="scan_pack.settings.escape_string_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.escape_string_enabled"
+                   (click)="update_settings()"></div> -->
+                   <!-- <i *ngIf="!scan_pack.settings.escape_string_enabled" class="info icon-large glyphicon glyphicon-info-sign" 
+                 popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.record_suffix}}" style="left: 5px;"></i> -->
+            </div>
+            <div class="col-lg-6 col-sm-7 row text-left" *ngIf="scan_pack.settings.escape_string_enabled" style="display: flex;">
+            <!-- <i class="info icon-large glyphicon glyphicon-info-sign" 
+                 popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.record_suffix}}"></i> -->
+              <label class="col-lg-3 col-sm-4 col-md-3">Escape String 1</label>
+              <div class="col-lg-9 col-sm-8 col-md-10" style="display: flex;">
+                <input class="col-lg-4 col-sm-2 col-md-3 form-control input-style" type="text" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.escape_string" ng-trim="false" />
+                 <!--  <i class="info icon-large glyphicon glyphicon-info-sign" 
+                   *ngIf="scan_pack.settings.escape_string_enabled" popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.record_suffix}}"></i> -->
+                  <label class="col-lg-3 col-sm-2 col-md-3">Record Suffix</label>
+                  <div class="col-lg-5 col-md-4 col-sm-2">
+                    <div class="row toggle-switch">
+                      <span placeholder="onLabel"></span>
+                      <label class="switch">
+                        <input class="switchon" type="checkbox"
+                        name="scan_pack.settings.first_escape_string_enabled"
+                        [(ngModel)]="scan_pack.settings.first_escape_string_enabled"
+                        (change)="update_settings()">
+                        <span class="slider round"></span>
+                      </label>
+                      <span placeholder="offLabel"></span>
+                    </div>
+                    <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.first_escape_string_enabled"
+                     (click)="update_settings()"></div>   -->
+                  </div>
+                  <!-- <i class="col-md-2 col-sm-2 info icon-large glyphicon glyphicon-info-sign"
+                 ng-if="scan_pack.settings.escape_string_enabled" popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.escape_string}}"></i> -->
+              </div>
+            
+            <!-- <div class="info col-lg-2 col-sm-2">
+            </div><br/>
+            <div class="col-lg-2 col-sm-2"></div> -->
+            <div *ngIf="scan_pack.settings.escape_string_enabled" style="display: flex;">
+              <label class="col-lg-3 col-sm-4 col-md-3" style="margin-left: 16px;">Escape String 2</label>
+              <div class="col-lg-9 col-sm-8 col-md-10" style="display:flex;">
+                <input class="col-lg-4 col-sm-2 col-md-3 form-control input-style" type="text" (blur)="update_settings()" [(ngModel)]="scan_pack.settings.second_escape_string" ng-trim="false"/>
+                  <label class="col-lg-3 col-sm-2 col-md-3">Record Suffix</label>
+                  <div class="col-lg-5 col-md-4 col-sm-2">
+                    <div class="row toggle-switch">
+                      <span placeholder="onLabel"></span>
+                      <label class="switch">
+                        <input class="switchon" type="checkbox"
+                        name="scan_pack.settings.second_escape_string_enabled"
+                        [(ngModel)]="scan_pack.settings.second_escape_string_enabled"
+                        (change)="update_settings()">
+                        <span class="slider round"></span>
+                      </label>
+                      <span placeholder="offLabel"></span>
+                    </div>
+                    <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.second_escape_string_enabled"
+                     (click)="update_settings()"></div> -->
+                  </div>
+                  <!-- <i class="col-md-2 col-sm-2 info icon-large glyphicon glyphicon-info-sign"
+                 ng-if="scan_pack.settings.escape_string_enabled" popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.escape_string}}"></i> -->
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Barcode string removal</label>
+            <div class="col-lg-2 controls form-inline" ng-class='{"col-sm-1": scan_pack.settings.string_removal_enabled, "col-sm-2": !scan_pack.settings.string_removal_enabled }'>
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.string_removal_enabled"
+                  [(ngModel)]="scan_pack.settings.string_removal_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.string_removal_enabled"
+                   (click)="update_settings()"></div> -->
+                 <!-- <i *ngIf="scan_pack.settings.string_removal_enabled==false" class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;padding-right: 2px;" 
+                popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.string_removal}}"></i>   -->
+              <!-- <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 ng-if="!scan_pack.settings.string_removal_enabled" popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.string_removal}}"></i> -->
+            </div>
+            <div class="col-lg-6 col-sm-4 text-left row" *ngIf="scan_pack.settings.string_removal_enabled">
+              <label class="col-lg-6 col-sm-4 col-md-3">Removal String</label>
+              <div class="col-lg-6 col-sm-8 col-md-9">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                  [(ngModel)]="scan_pack.settings.string_removal" ng-trim="false"/>
+              </div>
+            </div>
+            <div class="info col-sm-2" *ngIf="scan_pack.settings.string_removal_enabled">
+              <!-- <i class="icon-large glyphicon glyphicon-info-sign pull-left"
+                popover-trigger="mouseenter"
+                 groov-popover="{{translations.tooltips.string_removal}}"></i> -->
+            </div>
+          </div>
+         <!--  <div class="form-group" *ngIf="scan_pack.settings.escape_string_enabled">
+            <label class="control-label col-sm-3">{{translations.labels.lot_number}}</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div toggle-switch [(ngModel)]="scan_pack.settings.record_lot_number" (click)="update_settings()"></div>
+            </div>
+          </div>
+ -->
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Show Customer Notes</label>
+
+            <div class="controls col-sm-3 col-md-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.show_customer_notes"
+                  [(ngModel)]="scan_pack.settings.show_customer_notes"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.show_customer_notes"
+                   (click)="update_settings()"></div> -->
+              <!-- <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter" groov-popover="{{translations.tooltips.show_customer_notes}}"></i> -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Show Internal Notes</label>
+
+            <div class="controls col-sm-3 col-md-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.show_internal_notes"
+                  [(ngModel)]="scan_pack.settings.show_internal_notes"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.show_internal_notes"
+                   (click)="update_settings()"></div> -->
+              <!-- <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 popover-trigger="mouseenter" groov-popover="{{translations.tooltips.show_internal_notes}}"></i> -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3"
+                   style="padding-top: 0px;">Auto-Recognise Intangible Items</label>
+
+            <div class="controls form-inline" ng-class='{"col-md-1": scan_pack.settings.intangible_setting_enabled, "col-md-2": !scan_pack.settings.intangible_setting_enabled}'>
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.intangible_setting_enabled"
+                  [(ngModel)]="scan_pack.settings.intangible_setting_enabled"
+                  (change)="update_product_intangibleness()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.intangible_setting_enabled"
+                   (click)="update_product_intangibleness()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 ng-if="!scan_pack.settings.intangible_setting_enabled" popover-trigger="mouseenter"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.intanginle_setting}}" -->
+            </div>
+            <div class="col-sm-4 row" *ngIf="scan_pack.settings.intangible_setting_enabled">
+              <label class="col-sm-4 col-md-3" style="padding-top: 0px;">Intangible Identifier</label>
+
+              <div class="col-sm-8 col-md-9">
+                <input class="form-control input-style" type="text" (blur)="update_product_intangibleness()" [(ngModel)]="scan_pack.settings.intangible_string" ng-trim="false"/>
+              </div>
+            </div>
+            <div class="info col-sm-1">
+              <i class="icon-large glyphicon glyphicon-info-sign" *ngIf="scan_pack.settings.intangible_setting_enabled" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.intangible_setting}}" -->
+            </div>
+          </div>
+
+
+          <div class="form-group row" *ngIf="scan_pack.settings.intangible_setting_enabled">
+            <label class="control-label col-lg-4 col-sm-3"
+                   style="padding-top: 0px;">Auto-Alias Intangible Items</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.replace_gp_code"
+                  [(ngModel)]="scan_pack.settings.replace_gp_code"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.replace_gp_code" (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.replace_gp_code_tootip}}" -->
+            </div>
+          </div>
+
+          <div class="form-group row" *ngIf="scan_pack.settings.intangible_setting_enabled">
+            <label class="control-label col-lg-4 col-sm-3"
+                   style="padding-top: 0px;">Auto-Generate Barcode for Intangible Items</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.intangible_setting_gen_barcode_from_sku"
+                  [(ngModel)]="scan_pack.settings.intangible_setting_gen_barcode_from_sku"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.intangible_setting_gen_barcode_from_sku" (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.intangible_setting_gen_barcode_from_sku}}" -->
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3"
+                   style="padding-top: 0px;">Post Scan Pause</label>
+
+            <div class="col-lg-2 controls form-inline" ng-class='{"col-md-1": scan_pack.settings.post_scan_pause_enabled, "col-md-2": !scan_pack.settings.post_scan_pause_enabled}'>
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.post_scan_pause_enabled"
+                  [(ngModel)]="scan_pack.settings.post_scan_pause_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.post_scan_pause_enabled"
+                   (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 ng-if="!scan_pack.settings.post_scan_pause_enabled" popover-trigger="mouseenter"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.post_scan_pause}}" -->
+            </div>
+            <div class="col-lg-6 col-sm-4 row" *ngIf="scan_pack.settings.post_scan_pause_enabled">
+              <label class="col-lg-4 col-sm-4 col-md-3" style="padding-top: 0px;">Seconds</label>
+
+              <div class="col-lg-8 col-sm-8 col-md-9">
+                <input class="form-control input-style" type="number" step="0.1" min="0.3" (blur)="update_settings()" [(ngModel)]="scan_pack.settings.post_scan_pause_time"/>
+              </div>
+            </div>
+            <div class="info col-sm-2">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3"
+                   style="padding-top: 0px;">Display location during scanning</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.display_location"
+                  [(ngModel)]="scan_pack.settings.display_location"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.display_location" (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.display_location_on_scanning_page}}" -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3" 
+              style="padding-top: 0px;">Single Scan Order Verification</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.order_verification"
+                  [(ngModel)]="scan_pack.settings.order_verification"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.order_verification" (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.order_verification}}" -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3" 
+              style="padding-top: 0px;">Return to Orders List After Scanning</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.return_to_orders"
+                  [(ngModel)]="scan_pack.settings.return_to_orders"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.return_to_orders" (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.return_to_orders}}" -->
+            </div>
+          </div>
+
+           <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3"
+                   style="padding-top: 0px;">Require Serial/Lot Prefix</label>
+
+            <div class="controls form-inline" ng-class='{"col-md-1": scan_pack.settings.require_serial_lot, "col-md-2": !scan_pack.settings.require_serial_lot}'>
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.require_serial_lot"
+                  [(ngModel)]="scan_pack.settings.require_serial_lot"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.require_serial_lot"
+                   (click)="update_settings()"></div> -->
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;"
+                 ng-if="!scan_pack.settings.require_serial_lot" popover-trigger="mouseenter"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.require_serial}}" -->
+            </div>
+            <div class="col-sm-4 row" *ngIf="scan_pack.settings.require_serial_lot">
+              <label class="col-sm-4 col-md-3" style="padding-top: 0px;">Valid Prefixes</label>
+              <div class="col-sm-8 col-md-9">
+                <input class="form-control input-style" type="text" (blur)="update_settings()" [(ngModel)]="scan_pack.settings.valid_prefixes" ng-trim="false"/>
+              </div>
+            </div>
+            <div class="info col-sm-1">
+              <i class="icon-large glyphicon glyphicon-info-sign" *ngIf="scan_pack.settings.require_serial_lot" popover-trigger="mouseenter"></i>
+              <!-- groov-popover="{{translations.tooltips.require_serial}}" -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3"   style="padding-top: 0px;">Simple Product Scanning</label>
+            <div class="controls col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="general_settings.single.master_switch"
+                  [(ngModel)]="general_settings.single.master_switch"
+                  (change)="update_general_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="general_settings.single.master_switch" (click)="update_general_settings()" class="pull-left"></div> -->
+
+               <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter"></i>
+               <!-- groov-popover="{{translations.tooltips.simple_product_scanning}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Scanning Sequence</label>
+            <div class="controls col-sm-4 form-inline " ngbDropdown>
+              <button class="groove-button label label-default" ng-class="{'label-success':scan_pack.settings.scanning_sequence =='any_sequence',
+                  'label-warning':scan_pack.settings.scanning_sequence =='items_sequence',
+                  'label-danger':scan_pack.settings.scanning_sequence =='kit_packing_mode'}"
+                  id="scanningSequenceDropdown" ngbDropdownToggle>
+                <span *ngIf="scan_pack.settings.scanning_sequence =='any_sequence'" translate>Any Sequence</span>
+                <span *ngIf="scan_pack.settings.scanning_sequence =='items_sequence'" translate>Force suggested scan sequence for all items</span>
+                <!-- <span *ngIf="scan_pack.settings.scanning_sequence =='kits_sequence'" translate>Force suggested scan sequence for kit part items</span> -->
+                <span *ngIf="scan_pack.settings.scanning_sequence =='kit_packing_mode'" translate>Kit Packing Mode</span>
+              </button>
+              <div aria-labelledby="scanningSequenceDropdown" role="menu" ngbDropdownMenu>
+                <ul class="list-unstyled components">
+                  <li><a class="dropdown-item" (click)="change_scanning_seq_opt('any_sequence')" translate>Any Sequence</a>
+                  </li>
+                  <li><a class="dropdown-item" (click)="change_scanning_seq_opt('items_sequence')" translate>Force suggested scan sequence for all items</a>
+                  </li>
+                <!--  <li><a class="dropdown-item" (click)="change_scanning_seq_opt('kits_sequence')" translate>Force suggested scan sequence for kit part items</a>
+                  </li> -->
+                  <li><a class="dropdown-item" (click)="change_scanning_seq_opt('kit_packing_mode')" translate>Kit Packing Mode</a>
+                  </li>
+                </ul>
+              </div>
+              <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:4px;"
+                 popover-trigger="mouseenter" popover-placement="bottom"
+                 ></i>
+                 <!-- groov-popover="{{translations.tooltips.scanning_sequence_tool}}" -->
+            </div>
+          </div>
+
+         <!--  <div class="form-group row">
+            <label class="control-label col-sm-3"
+                   style="padding-top: 0px;">Download image for Shipstation products</label>
+
+            <div class="controls col-sm-2 form-inline">
+              <div toggle-switch [(ngModel)]="scan_pack.settings.download_ss_image" (click)="update_settings()"></div> -->
+              <!-- <i class="info icon-large glyphicon glyphicon-info-sign" style="padding-left:5px;" popover-trigger="mouseenter" groov-popover="{{translations.tooltips.display_location_on_scanning_page}}"></i> -->
+            <!-- </div>
+          </div> -->
+
+        </fieldset>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Scan Actions</h3>
+      <h4>Scanning these special action barcodes during order processing will perform the listed actions.</h4>
+
+      <div class="form-horizontal general-settings-form">
+        <fieldset>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Skip the current item</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.skip_code_enabled"
+                  [(ngModel)]="scan_pack.settings.skip_code_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.skip_code_enabled" (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.skip_code_enabled">
+              <label class="control-label col-lg-3 col-sm-3 col-md-2">scan</label>
+
+              <div class="col-lg-9 col-sm-9 col-md-10">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.skip_code"/>
+              </div>
+            </div>
+            <div class="info col-sm-2">
+              <a (click)="scan_pack_pdf('skip_code')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.skip_code}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Create a 'note from packer' for the current order</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.note_from_packer_code_enabled"
+                  [(ngModel)]="scan_pack.settings.note_from_packer_code_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.note_from_packer_code_enabled"
+                   (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.note_from_packer_code_enabled">
+              <label class="control-label col-lg-3 col-sm-3 col-md-2">scan</label>
+
+              <div class="col-lg-9 col-sm-9 col-md-10">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.note_from_packer_code"/>
+              </div>
+            </div>
+            <div class="info col-sm-2">
+              <a (click)="scan_pack_pdf('note_from_packer_code')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.note_from_packer_code}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Give current order service issue status</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.service_issue_code_enabled"
+                  [(ngModel)]="scan_pack.settings.service_issue_code_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.service_issue_code_enabled"
+                   (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.service_issue_code_enabled">
+              <label class="control-label col-lg-3 col-sm-3 col-md-2">scan</label>
+
+              <div class="col-lg-9 col-sm-9 col-md-10">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                  [(ngModel)]="scan_pack.settings.service_issue_code"/>
+              </div>
+            </div>
+            <div class="info col-sm-2">
+              <a (click)="scan_pack_pdf('service_issue_code')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.service_issue_code}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Restart current Order</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.restart_code_enabled"
+                  [(ngModel)]="scan_pack.settings.restart_code_enabled"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.restart_code_enabled"
+                   (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.restart_code_enabled">
+              <label class="control-label col-lg-3 col-sm-3 col-md-2">scan</label>
+
+              <div class="col-lg-9 col-sm-9 col-md-10">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                  [(ngModel)]="scan_pack.settings.restart_code"/>
+              </div>
+            </div>
+            <div class="info col-sm-2">
+              <a (click)="scan_pack_pdf('restart_code')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.restart_code}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Click Scan</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.click_scan"
+                  [(ngModel)]="scan_pack.settings.click_scan"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.click_scan"
+                   (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.click_scan_barcode">
+              <label class="control-label col-lg-3 col-sm-3 col-md-2">scan</label>
+
+              <div class="col-lg-9 col-sm-9 col-md-10">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                  [(ngModel)]="scan_pack.settings.click_scan_barcode"/>
+              </div>
+            </div>
+            <div class="info col-lg-2 col-sm-2">
+              <a (click)="scan_pack_pdf('click_scan_barcode')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.click_scan_tooltip}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">SCANNED</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.scanned"
+                  [(ngModel)]="scan_pack.settings.scanned"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.scanned"
+                   (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.scanned_barcode">
+              <label class="control-label col-lg-3 col-sm-3 col-md-2">scan</label>
+
+              <div class="col-lg-9 col-sm-9 col-md-10">
+                <input class="form-control input-style" type="text" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.scanned_barcode"/>
+              </div>
+            </div>
+            <div class="info col-sm-2">
+              <a (click)="scan_pack_pdf('scanned_barcode')" target="_blank" class="generate_pdf"><i
+                class="icon-large glyphicon glyphicon-print"></i></a>&nbsp;
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.scanned_barcode_tooltip}}" -->
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Scanning Feedback</h3>
+
+      <div class="form-horizontal general-settings-form">
+        <fieldset>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Display Success Image</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.show_success_image"
+                  [(ngModel)]="scan_pack.settings.show_success_image"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.show_success_image" (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.show_success_image">
+              <label class="control-label col-lg-1 col-sm-1">for</label>
+
+              <div class="col-sm-5">
+                <input class="form-control input-style" type="number" step="0.1" min="0.3" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.success_image_time"/>
+              </div>
+              <label class="control-label col-lg-1 col-sm-1">seconds</label>
+            </div>
+            <div class="info col-sm-2">
+              <i class="icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+                ></i>
+                <!-- groov-popover="{{translations.tooltips.feedback}}" -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Display Fail Image</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.show_fail_image"
+                  [(ngModel)]="scan_pack.settings.show_fail_image"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.show_fail_image" (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.show_fail_image">
+              <label class="control-label col-lg-1 col-sm-1">for</label>
+
+              <div class="col-lg-5 col-sm-5">
+                <input class="form-control input-style" type="number" step="0.1" min="0.3" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.fail_image_time"/>
+              </div>
+              <label class="control-label col-lg-1 col-sm-1">seconds</label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Display Image on Order Completion</label>
+
+            <div class="controls col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.show_order_complete_image"
+                  [(ngModel)]="scan_pack.settings.show_order_complete_image"
+                   (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.show_order_complete_image"
+                   (click)="update_settings()"></div> -->
+            </div>
+            <div class="col-lg-4 col-sm-4 row" *ngIf="scan_pack.settings.show_order_complete_image">
+              <label class="control-label col-lg-1 col-sm-1">for</label>
+
+              <div class="col-sm-5">
+                <input class="form-control input-style" type="number" step="0.1" min="0.3" (blur)="update_settings()"
+                       [(ngModel)]="scan_pack.settings.order_complete_image_time"/>
+              </div>
+              <label class="control-label col-lg-1 col-sm-1">seconds</label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Play Success Sound</label>
+
+            <div class="controls col-lg-2 col-sm-2 col-md-1 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.play_success_sound"
+                  [(ngModel)]="scan_pack.settings.play_success_sound"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.play_success_sound" (click)="update_settings()"></div> -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Play Fail Sound</label>
+
+            <div class="controls col-lg-2 col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.play_fail_sound"
+                  [(ngModel)]="scan_pack.settings.play_fail_sound"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.play_fail_sound" (click)="update_settings()"></div> -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-lg-4 col-sm-3">Play Sound on Order Complete</label>
+
+            <div class="controls col-lg-2 col-sm-2 form-inline">
+              <div class="row toggle-switch">
+                <span placeholder="onLabel"></span>
+                <label class="switch">
+                  <input class="switchon" type="checkbox"
+                  name="scan_pack.settings.play_order_complete_sound"
+                  [(ngModel)]="scan_pack.settings.play_order_complete_sound"
+                  (change)="update_settings()">
+                  <span class="slider round"></span>
+                </label>
+                <span placeholder="offLabel"></span>
+              </div>
+              <!-- <div toggle-switch [(ngModel)]="scan_pack.settings.play_order_complete_sound"
+                   (click)="update_settings()"></div> -->
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>

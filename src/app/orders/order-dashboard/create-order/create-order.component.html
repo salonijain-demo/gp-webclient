@@ -1,0 +1,35 @@
+<div> 
+  <mat-tab-group>
+    <mat-tab label="Items">
+      <app-items-order [allowToProceedOrder]="allowToProceedOrder" (created_order)="get_order_created($event)"></app-items-order>
+    </mat-tab>
+    <mat-tab label="Notes">
+      <app-notes-order *ngIf="created_order" [created_order]="created_order"></app-notes-order>
+    </mat-tab>
+    <mat-tab label="Information"> 
+      <app-information-order (allowToProceedOrder)="getOrderToProceed($event)" *ngIf="created_order" [created_order]="created_order"></app-information-order>
+    </mat-tab>
+    <mat-tab label="Activities & Exceptions">
+      <app-activities-order *ngIf="created_order" [created_order]="created_order"></app-activities-order>
+    </mat-tab>
+    <mat-tab label="Multi-Box Info">
+      <app-multi-box-order></app-multi-box-order>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #confirmModal let-c="close" let-d="dismiss">
+  <div class="modal-body col-lg-12">
+    <p>
+      Please click continue to assign an order number and save the order, or click delete to exit and cancel order creation.
+    </p>
+    <div class="row">
+      <div class="col-lg-6">
+        <button class="form-control" (click)="continue()">Continue</button>
+      </div>
+      <div class="col-lg-6">
+        <button class="form-control" (click)="delete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

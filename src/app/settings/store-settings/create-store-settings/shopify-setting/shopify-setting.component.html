@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="col-md-8">
+    <legend>Shopify Information</legend>
+    <div class="form-group">
+      <label class="control-label col-md-4">Shop Name</label>
+
+      <div class="controls col-md-8">
+        <div class="input-group">
+          <span class="input-group-addon"><strong>https://</strong></span>
+          <input  type="search" name="username" xs-input-sync ng-model="stores.single.shop_name" type="text"
+                 (blur)="update_single_store(true)" class="form-control input-style" placeholder="yourshopname" value=""
+                 required/>
+          <span class="input-group-addon"><strong>.myshopify.com</strong></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-4"></label>
+
+      <div class="controls col-md-8">
+        <button class="btn btn-success" ng-click="update_single_store(true);launch_shopify_popup()">
+          Authorize access
+        </button>
+      </div>
+    </div>
+    <div ng-hide="stores.single.access_token == null || stores.single.access_token == 'null'">
+      <div class="form-group">
+        <label class="control-label col-md-4">Access token</label>
+
+        <div class="controls col-md-8">
+          <p class="form-control-static">Available</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4"></label>
+
+        <div class="controls col-md-8">
+          <button class="btn btn-success" ng-click="disconnect_shopify()">
+            Disconnect access
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <legend>Status</legend>
+     <!-- <i class="pull-right icon-large glyphicon glyphicon-info-sign" popover-trigger="mouseenter"
+           groov-popover="These switches control which orders will be imported from Shopify. You will need to have at least one switch from each group enabled. Orders must match at least one switch from both groups to be imported. For example, if the “Open” status switch and the switch for “Unfulfilled” were the only ones enabled, the fulfilled and partially fulfilled orders would not be imported, even if they have a status of Open."/> -->
+    <div class="form-group">
+      <label class="control-label col-md-4">Open</label>
+
+      <div class="controls col-md-8">
+        <input type="radio" name="interval" value="open" ng-model="stores.single.shopify_status"  (change)="update_single_store(true)">
+      </div>
+    </div>
+      <div class="form-group">
+      <label class="control-label col-md-4">Archived</label>
+
+      <div class="controls col-md-8">
+        <input type="radio" name="interval" value="closed" ng-model="stores.single.shopify_status" (change)="update_single_store(true)">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <legend>Fulfillment</legend>
+    <div class="form-group">
+      <label class="control-label col-md-4">Unfulfilled</label>
+
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.unshipped_status" groov-click="update_single_store(true)"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-4">Partially Fulfilled</label>
+
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.partial_status" groov-click="update_single_store(true)"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-4">Fulfilled</label>
+      <div class="controls col-md-8">
+        <div toggle-switch ng-model="stores.single.shipped_status" groov-click="update_single_store(true)"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8" ng-if="stores.single.allow_shopify_inv_push">
+    <legend>Inventory Management</legend>
+    <div class="form-group">
+      <label class="control-label col-md-3">Inventory Push/Pull</label>
+
+      <div class="controls col-md-2">
+        <div toggle-switch ng-model="stores.single.update_inv" groov-click="update_single_store(true)"></div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-show="stores.single.update_inv && stores.single.id && stores.single.access_token">
+      <label class="control-label col-md-3"></label>
+
+      <div class="col-sm-2">
+        <button confirm-click="Are you sure? This will overwrite inventory data!" ng-click="pull_store_inventory()" class="dropdown-toggle groove-button label label-default label-danger" translate>Pull Inventory
+        </button>
+      </div>
+      <div class="col-sm-2">
+        <button confirm-click="Are you sure? This will overwrite inventory data!" ng-click="push_store_inventory()" class="dropdown-toggle groove-button label label-default label-danger" translate>Push Inventory
+        </button>
+      </div>
+    </div>
+  </div>
+  <br/>
+</div>
