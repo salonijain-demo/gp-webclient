@@ -94,7 +94,6 @@ export class ScanPackDashboardComponent implements OnInit {
   }
 
   input_enter(event) {
-    debugger
     if (event.which != '13') return;
     // if(this.scanOrder == "BOXNEXT" || this.scanOrder == "BOXPREV"){
     //   this.change_box_with_input();
@@ -157,7 +156,6 @@ export class ScanPackDashboardComponent implements OnInit {
   }
 
   async start_scanning(event) {
-    debugger
     // if (!this.callback()) return;
     var id = null;
     // if (typeof this.data.order.id !== "undefined") {
@@ -208,7 +206,6 @@ export class ScanPackDashboardComponent implements OnInit {
     // }
     // if(this.data.current_box == undefined){
       await this.scanpackSettingService.input(this.scan_pack, this.scanOrder, this.current_state, id, this.qty_remaining, null, null)
-      debugger
       if(this.scanpackSettingService.responses){
         this.response = this.scanpackSettingService.responses.response
         if(this.response.data.inactive_or_new_products){
@@ -216,9 +213,9 @@ export class ScanPackDashboardComponent implements OnInit {
           this.orderService.sendDataToOtherComponent(this.inactive_or_new_products);
           this.router.navigate(['../scanpack.rfp.product_edit', this.response.data.order_num],{ relativeTo: this.route})
         }
-        else if(this.response.data.inactive_or_new_products == undefined){
-          this.orderService.sendDataToOtherComponent(this.response);
-          this.router.navigate(['../scanpack.rfp.default'], { relativeTo: this.route })
+        else if(this.response.data.status == 'awaiting' && this.response.data.inactive_or_new_products == undefined){
+          // this.orderService.sendDataToOtherComponent(this.response);
+          this.router.navigate(['../scanpack.rfp.default', this.response.data.order_num], { relativeTo: this.route })
         }
         // ,{queryParams: {order: this.scanOrder}}
         // this.handle_scan_return()
@@ -241,7 +238,6 @@ export class ScanPackDashboardComponent implements OnInit {
   }
 
   // $scope.handle_scan_return = function (data) {
-  //   debugger
   //   if ((data.data != "undefined") && (data.data.order!=undefined) && (data.data.order.store_type != undefined)) {
   //     $scope.store_type = data.data.order.store_type
   //   } 

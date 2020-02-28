@@ -17,6 +17,7 @@ export class ScanPackSettingService {
   order_modified = [];
   increment_id: '';
   username: string;
+  scanResponse:any;
   url = "http://mydev.localpackerapi.com";
   private readonly notifier: NotifierService;
 
@@ -28,6 +29,7 @@ export class ScanPackSettingService {
   }
 
   get_settings(model) {
+    debugger
     return this.http.get(this.url + '/settings/get_scan_pack_settings.json', this.httpOptions) 
   }
 
@@ -120,6 +122,37 @@ export class ScanPackSettingService {
   }
 
   create_box(order_id, box){
-    return this.http.post(this.url + '/box.json', { order_id: order_id, name: 'Box '+ box });
+    return this.http.post(this.url + '/box.json', { order_id: order_id, name: 'Box '+ box },this.httpOptions);
   }
+  
+  async click_scan(barcode, id, box_id) {
+    this.set_order_scanned('push');
+
+    await this.http.post(this.url + '/scan_pack/click_scan.json', {barcode: barcode, id: id, box_id: box_id},this.httpOptions).toPromise().then(response=>{
+      // notification.notify(data.notice_messages, 2);
+      // notification.notify(data.success_messages, 1);
+      // notification.notify(data.error_messages, 0);
+      return this.scanResponse = {
+        response: response
+      }
+    },error=>{
+      // notification.server_error;
+      this.set_order_scanned('pop');
+    })
+  }
+
+  reset(id) {
+    debugger
+    return this.http.post(this.url + '/scan_pack/reset_order_scan.json', {order_id: id},this.httpOptions)
+  }
+
+  // add_note(id, send_email, note) {
+  //   debugger
+  //   return this.http.post(this.url + '/scan_pack/add_note.json', {id: id, email: send_email, note: note},this.httpOptions).success(function (data) {
+  //     notification.notify(data.notice_messages, 2);
+  //     notification.notify(data.success_messages, 1);
+  //     notification.notify(data.error_messages, 0);
+  //   }).error(notification.server_error);
+  // }
+
 }

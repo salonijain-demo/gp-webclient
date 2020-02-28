@@ -8,7 +8,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'scanpack.rfo', pathMatch: 'full'},
   {path: 'scanpack.rfo', component: ScanPackDashboardComponent},
   // {path: 'scanpack.rfp', component: },
-  {path: 'scanpack.rfp.default', component: ScanPackListComponent},
+  {path: 'scanpack.rfp.default/:name', component: ScanPackListComponent},
   {path: 'scanpack.rfp.product_edit/:name', component: ScanPackProductEditComponent},
   // {path: 'scanpack.rfp.recording', component: },
   // {path: 'scanpack.rfp.verifying', component: },

@@ -22,7 +22,7 @@ export class LoginService {
   
   login(username, password){
     var target_url = this.url + '/auth/v1/login'
-    return this.http.post(target_url, {username: username, password: password}, this.httpOptions);
+    return this.http.post(target_url, {username: username, password: password});
   }
 
   update_login_date(username){

@@ -1,1 +1,10 @@
-<app-data-grid *ngIf = "inactive_or_new_products" [inactive_or_new_products]="inactive_or_new_products"></app-data-grid>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-lg-12">
+      <app-base></app-base>
+    </div>
+    <div>
+      <app-data-grid *ngIf = "inactive_or_new_products" [inactive_or_new_products]="inactive_or_new_products"></app-data-grid>
+    </div>
+  </div>
+</div>

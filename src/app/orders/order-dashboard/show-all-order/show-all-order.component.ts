@@ -106,26 +106,20 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.orderService.getMessage().subscribe(receiveddata=>{
       debugger
-      // if(this.orders.selected && receiveddata == 'export_items') {
-      //   this.generate_orders_items_list();
-      //   this.get_orders(this.page);
-      // }else
-      console.log('receive data', this.orders)
+      if(this.orders.selected && receiveddata == 'export_items') {
+        this.generate_orders_items_list();
+      }else
        if(this.orders.selected && receiveddata == 'delete') {
         this.order_delete();
-        // this.get_orders(this.page);
-        // this.orders.selected = [];
       }
-      // else if(this.orders.selected && receiveddata == 'duplicate') {
-      //   this.order_duplicate();
-      //   this.get_orders(this.page);
-      // }
-      // else if(this.orders.selected && (receiveddata == 'cancelled'
-      //   || receiveddata == 'scanned' || receiveddata == 'serviceissue'
-      //   || receiveddata == 'awaiting')) {
-      //   this.order_change_status(receiveddata);
-      //   this.get_orders(this.page);
-      // }
+      else if(this.orders.selected && receiveddata == 'duplicate') {
+        this.order_duplicate();
+      }
+      else if(this.orders.selected && (receiveddata == 'cancelled'
+        || receiveddata == 'scanned' || receiveddata == 'serviceissue'
+        || receiveddata == 'awaiting')) {
+        this.order_change_status(receiveddata);
+      }
     })
   }
 

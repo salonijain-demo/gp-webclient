@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { OrderService } from 'src/app/services/order.service';
+import { ScanPackSettingService } from 'src/app/services/scan-pack-setting.service';
+import { GeneralSettingsService } from 'src/app/services/general-settings.service';
+import { general_settings } from 'src/app/interfaces/generalSettings';
+
 
 @Component({
   selector: 'app-scan-pack-list',
@@ -27,17 +31,64 @@ export class ScanPackListComponent implements OnInit {
   check_request = true;
   check_remove_box =  true;
   data:any;
+  click_scan_happend: boolean;
+  last_scanned_barcode:string;
+  increment_id:string;
+  general_settings={
+    single: {
+      flash: '',
+      api_call: false,
+      allow_rts: false,
+      groovelytic_stat: false,
+      product_activity: true,
+      custom_product_fields: false,
+      time_zones: {},
+      current_time: '',
+      scheduled_import_toggle: false,
+      to_import: '',
+      from_import: '',
+      time_to_import_orders: '',
+      custom_field_one: '',
+      custom_field_two: '',
+      time_to_send_email: '',
+      time_zone: '',
+      dst: true,
+      inventory_tracking: true,
+      low_inventory_alert_email: false,
+      low_inventory_email_address: ''
+    },
+    is_multi_box: false,
+  }
+  current_state = 'scanpack.rfo';
+  scan_pack = {
+    state: 'none',
+    scan_states: {
+    },
+    settings: {}
+  }
+  scanOrder:string;
+  qty_remaining: ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private scanPackSettingService: ScanPackSettingService,
+    private generalSettingService: GeneralSettingsService
   ) { }
 
   ngOnInit() {
-    this.subscription = this.orderService.getMessage().subscribe(receiveddata=>{
-      this.data = receiveddata
-      console.log(this.data);
-      debugger
+    this.scanOrder =this.activatedRoute.snapshot.paramMap.get('name')
+    console.log(this.scanOrder)
+    // this.subscription = this.orderService.getMessage().subscribe(receiveddata=>{
+    //   this.data = receiveddata
+    //   console.log(this.data);
+    //   
+    // })
+    this.get_scan_list()
+    this.generalSettingService.get_settings(this.general_settings).subscribe((response:any)=> {
+      this.general_settings.single = response.data.settings
+      this.general_settings.is_multi_box = response.is_multi_box
+      
     })
     // this.check_reload_compute();
   }
@@ -46,39 +97,90 @@ export class ScanPackListComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
-  // autoscan_barcode() {
-  //   if (this.scan_pack.settings.enable_click_sku) {
-  //     if (this.data.data.order.next_item.click_scan_enabled == "on_with_confirmation") {
-  //       this.show_click_scan_confirm();
-  //     } else if (this.data.data.order.next_item.click_scan_enabled == "on") {
-  //       if(this.general_settings.single.is_multi_box) { 
-  //         if (this.check_request == true){
-  //           this.check_request = false;
-  //           this.do_autoscan();
-  //         }
-  //       }else{
-  //         this.do_autoscan();
-  //       }
-  //     } else if (this.data.order.next_item.click_scan_enabled == "off") {
-  //       // notification.notify('Click Scan is disabled for this product');
-  //     }
+  get_scan_list(){
+    // setTimeout(async ()=>{
+      this.scanPackSettingService.get_settings(this.scan_pack).subscribe((response:any)=>{
+        this.scan_pack.settings = response
+        this.scan_barcode()
+      })
+    // }, 2000)
+  }
 
-  //   } else {
-  //     // notification.notify('Click Scan is disabled');
-  //   }
-  // }
+  async scan_barcode(){
+    var id = null;
+    await this.scanPackSettingService.input(this.scan_pack, this.scanOrder, this.current_state, id, this.qty_remaining, null, null)
+    if(this.scanPackSettingService.responses){
+      this.data = this.scanPackSettingService.responses.response
+    }
+  }
 
-  // do_autoscan() {
-  //   this.click_scan_happend = true;
-  //   this.last_scanned_barcode = this.data.data.order.next_item.barcodes[0].barcode;
-  //   $window.increment_id = this.data.data.order.increment_id;
-  //   if(this.data.current_box == undefined){
-  //     scanPack.click_scan(this.data.data.order.next_item.barcodes[0].barcode, this.data.data.order.id, null).success(this.handle_scan_return);
-  //   }
-  //   else{
-  //     scanPack.click_scan(this.data.data.order.next_item.barcodes[0].barcode, this.data.data.order.id, this.data.current_box.id).success(this.handle_scan_return);
-  //   }
-  // }
+  reset_order(){
+    if (confirm("Resetting the order will remove all items that have been packed for this order. Are you sure?")){
+      this.scanPackSettingService.reset(this.data.data.order.id).subscribe((response:any)=>{
+        // notification.notify(data.notice_messages, 2);
+        // notification.notify(data.success_messages, 1);
+        // notification.notify(data.error_messages, 0);
+        if (response.status) {
+          if (typeof response.data != "undefined") {
+            if (typeof response.data.next_state != "undefined") {
+              //states[data.data.next_state](data.data);
+              // if ($state.current.name == response.data.next_state) {
+              //   $state.reload();
+              // } else {
+              //   // $state.go(response.data.next_state, response.data);
+              // }
+            }
+          }
+        }
+      })
+    }
+  }
+
+  autoscan_barcode() {
+    
+    if (this.data.data.scan_pack_settings.enable_click_sku) {
+      if (this.data.data.order.next_item.click_scan_enabled == "on_with_confirmation") {
+        // this.show_click_scan_confirm();
+      } else if (this.data.data.order.next_item.click_scan_enabled == "on") {
+        if(this.general_settings.is_multi_box) {
+          if (this.check_request == true){
+            this.check_request = false;
+            this.do_autoscan();
+          }
+        }else{
+          this.do_autoscan();
+        }
+      } else if (this.data.order.next_item.click_scan_enabled == "off") {
+        // notification.notify('Click Scan is disabled for this product');
+      }
+
+    } else {
+      // notification.notify('Click Scan is disabled');
+    }
+  }
+
+  async do_autoscan() {
+    this.click_scan_happend = true;
+    this.last_scanned_barcode = this.data.data.order.next_item.barcodes[0].barcode;
+    this.increment_id = this.data.data.order.increment_id;
+    
+    if(this.data.current_box == undefined){
+      await this.scanPackSettingService.click_scan(this.data.data.order.next_item.barcodes[0].barcode, this.data.data.order.id, null)
+      if(this.scanPackSettingService.scanResponse){
+        
+        this.scan_barcode()
+        // this.handle_scan_return();
+      }
+    }
+    else{
+      await this.scanPackSettingService.click_scan(this.data.data.order.next_item.barcodes[0].barcode, this.data.data.order.id, this.data.current_box.id)
+      if(this.scanPackSettingService.scanResponse){
+        
+        this.scan_barcode()
+        // this.handle_scan_return();
+      }
+    }
+  }
 
   // show_click_scan_confirm() {
   //   if (this.click_scan_confirmed_id != this.data.data.order.next_item.product_id) {
@@ -130,7 +232,7 @@ export class ScanPackListComponent implements OnInit {
   // }
 
   // rfpinit() {
-  //   debugger
+  //   
   //   this.alternate_orders = [];
   //   // this.init();
   //   var result = $q.defer();

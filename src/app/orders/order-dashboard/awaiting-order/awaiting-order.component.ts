@@ -103,23 +103,22 @@ export class AwaitingOrderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private orderService: OrderService
   ) { 
-    // this.orderService.shareDataSubject.subscribe(receiveddata=>{
-      // if(this.orders.selected && receiveddata == 'export_items') {
-      //   this.generate_orders_items_list();
-      // }else
-      //  if(this.orders.selected && receiveddata == 'delete') {
-      //   this.order_delete();
-        // this.orders.selected = [];
-      // }
-      // else if(this.orders.selected && receiveddata == 'duplicate') {
-      //   this.order_duplicate();
-      // }
-      // else if(this.orders.selected && (receiveddata == 'cancelled'
-      //   || receiveddata == 'scanned' || receiveddata == 'serviceissue'
-      //   || receiveddata == 'awaiting')) {
-      //   this.order_change_status(receiveddata);
-      // }
-    // })
+    this.orderService.getMessage().subscribe(receiveddata=>{
+      if(this.orders.selected && receiveddata == 'export_items') {
+        this.generate_orders_items_list();
+      }else
+       if(this.orders.selected && receiveddata == 'delete') {
+        this.order_delete();
+      }
+      else if(this.orders.selected && receiveddata == 'duplicate') {
+        this.order_duplicate();
+      }
+      else if(this.orders.selected && (receiveddata == 'cancelled'
+        || receiveddata == 'scanned' || receiveddata == 'serviceissue'
+        || receiveddata == 'awaiting')) {
+        this.order_change_status(receiveddata);
+      }
+    })
   }
 
   ngOnInit() {
@@ -181,7 +180,6 @@ export class AwaitingOrderComponent implements OnInit {
         this.url ='http://mydev.localpackerapi.com' + '/orders.json?' + 'filter=' +params.filter+'&sort='+params.sort+'&order='+params.order;
         return this.orderService.get_list_order(this.url).subscribe( (response: any) =>
           {
-      
             if (this.ctrlKey == true){
               // this.orders.selected.push(this.orders.list);
               this.orders.selected = [].concat.apply([], this.orders.selected);
@@ -205,6 +203,70 @@ export class AwaitingOrderComponent implements OnInit {
         // return req.promise;
       }
     }
+
+    order_delete(){
+      console.log(this.orders)
+      this.orderService.update_list('delete', this.orders).subscribe((response:any)=>{
+        if (response.status) {
+          debugger
+          this.orders.setup.select_all = false;
+          this.orders.setup.inverted = false;
+          this.orders.selected = [];
+          // setTimeout(()=>{
+            // alert()
+            this.get_orders(this.page);
+          // }, 5000)
+          // notification.notify(success_messages[action], 1);
+          // notification.notify(data.notice_messages, 2);
+        } else {
+          // notification.notify(data.error_messages, 0);
+        }
+        // this.get_orders(this.page);
+      },error=>{
+        // notification.server_error
+      })
+    }
+  
+    order_change_status(status) {
+      // if ($state.params.filter == "scanned") {
+      //   this.orders.setup.reallocate_inventory = confirm("Should inventory deduct from available for allocation?");
+      // }
+      this.orders.setup.status = status;
+      this.orderService.update_list('update_status', this.orders).subscribe((response:any)=>{
+        this.orders.setup.status = "";
+        this.get_orders(this.page);
+      })
+    }
+  
+    order_duplicate() {
+      this.orderService.update_list('duplicate', this.orders).subscribe((response:any)=>{
+        this.orders.selected = [];
+        if (response.status) {
+          this.orders.setup.select_all = false;
+          this.orders.setup.inverted = false;
+          // notification.notify(success_messages[action], 1);
+          // notification.notify(data.notice_messages, 2);
+        } else {
+          // notification.notify(data.error_messages, 0);
+        }
+        this.get_orders(this.page);
+      }, error=>{
+        // notification.server_error
+      })
+    }
+  
+    generate_orders_items_list() {
+      this.orderService.generate_list('items_list', this.orders).subscribe((response:any)=>{
+        if (response['status']) {
+          if (response.filename != '') {
+            window.open(response.filename);
+          }
+        } else {
+          // notification.notify(response['messages']);
+        }
+      })
+    }
+
     reset_change_status() {
       this.allowStatusChanges.cancelled = this.params.filter != "scanned";
       this.allowStatusChanges.scanned = this.params.filter != "cancelled"
