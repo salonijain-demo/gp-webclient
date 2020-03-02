@@ -1,20 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackupExportService {
-
-  url = "http://mydev.localpackerapi.com";
-  access_token =  localStorage.getItem('access_token');
-  
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.access_token
-    })
-  }
 
   updateExportSetting={
     current_time: '',
@@ -39,13 +30,13 @@ export class BackupExportService {
   ) { }
 
   update_export_setting(settings){
-    var url = this.url + '/exportsettings/update_export_settings.json';
+    var url = environment.baseUrl + '/exportsettings/update_export_settings.json';
     this.fix_time(settings);
     settings.single.time_to_send_export_email = settings.single.time_to_send_export_email.toString().split("GMT")[0];
     settings.single.time_to_send_stat_export_email = settings.single.time_to_send_stat_export_email.toString().split("GMT")[0];
     settings.single.time_to_send_daily_packed_export_email = settings.single.time_to_send_daily_packed_export_email.toString().split("GMT")[0];
     
-    this.http.put(url, settings.single, this.httpOptions).subscribe( (response:any)=>{
+    this.http.put(url, settings.single).subscribe( (response:any)=>{
       if (response.status) {
         this.get_export_settings(settings);
         // notification.notify(data.success_messages, 1);
@@ -77,8 +68,8 @@ export class BackupExportService {
   }
 
   get_export_settings(settings) {
-    var url = this.url + '/exportsettings/get_export_settings.json';
-    this.http.get(url, this.httpOptions).subscribe((response:any) =>
+    var url = environment.baseUrl + '/exportsettings/get_export_settings.json';
+    this.http.get(url).subscribe((response:any) =>
       {
         if (response.status) {
           this.export_settings.single.daily_packed_email = response.data.settings.daily_packed_email

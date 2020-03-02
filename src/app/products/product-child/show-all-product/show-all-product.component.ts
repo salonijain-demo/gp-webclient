@@ -11,6 +11,9 @@ export class ShowAllProductComponent implements OnInit {
   @Output()
   productSelected = new EventEmitter<any>();
 
+  @Input()
+  search_data:string
+
   products = {
     list: [],
     selected: [],
@@ -63,6 +66,14 @@ export class ShowAllProductComponent implements OnInit {
   ngOnInit() {
     this.get_product();
   }
+
+  ngOnChanges(){
+    this.products.setup.search = this.search_data
+    if(this.products.setup.search){
+      this.get_search_data()
+    }
+  }
+
   async get_product(){
     await this.productService.get_product()
     this.inventory_report_toggle = this.productService.responses.inventory_report_toggle;
@@ -77,11 +88,11 @@ export class ShowAllProductComponent implements OnInit {
     if(typeof page != 'undefined' && this.page_exists.toString() === page.toString()){
       return;
     }
-   
     if (this.can_load_products) {
       this.can_load_products = false;
       await this.productService.get_product_list(this.products, this.page)
       this.productList = this.productService.response.response.products
+      this.products.list = this.productService.response.response.products
     } else {
       this.do_load_products = page;
     }
@@ -100,5 +111,13 @@ export class ShowAllProductComponent implements OnInit {
       product.push(this.productList[element])
     })
     this.productSelected.emit(product)
+  }
+
+  get_search_data(){
+    this.productService.get_product_list(this.products,this.page)
+    var response = this.productService.response.response
+    if (response.status) {
+      this.productList = response.products
+    }
   }
 }

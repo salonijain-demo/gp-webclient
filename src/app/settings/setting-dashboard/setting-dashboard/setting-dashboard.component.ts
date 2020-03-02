@@ -134,7 +134,7 @@ export class SettingDashboardComponent implements OnInit {
     this.systemSettingsDropdown = false;
     this.backupExportDropdown = false;
     this.accountSettingsDropdown = false;
-    this.storeSetting(this.storeSettingsDropdown)
+    // this.storeSetting(this.storeSettingsDropdown)
   }
 
   dropdownList(storeSettingsDropdown, settingsUserPermission, systemSettingsDropdown,
@@ -142,11 +142,11 @@ export class SettingDashboardComponent implements OnInit {
   {
     if(!storeSettingsDropdown){
       this.storeSettingsDropdown = false
-      this.storeSetting(this.storeSettingsDropdown)
+      // this.storeSetting(this.storeSettingsDropdown)
     }
     if(!settingsUserPermission){
       this.settingsUserPermission = false
-      this.userPermission(settingsUserPermission)
+      // this.userPermission(settingsUserPermission)
     }
     if(!systemSettingsDropdown){
       this.systemSettingsDropdown = false
@@ -165,7 +165,7 @@ export class SettingDashboardComponent implements OnInit {
     }
     if(settingsUserPermission){
       this.settingsUserPermission = !this.settingsUserPermission
-      this.userPermission(settingsUserPermission)
+      // this.userPermission(settingsUserPermission)
     }
     if(systemSettingsDropdown){
       this.systemSettingsDropdown = !this.systemSettingsDropdown
@@ -181,13 +181,13 @@ export class SettingDashboardComponent implements OnInit {
     }
   }
 
-  storeSetting(showAll){
-    this.showAllSetting = showAll
-  }
+  // storeSetting(showAll){
+  //   this.showAllSetting = showAll
+  // }
 
-  userPermission(showAll){
-    this.showAllUser = showAll
-  }
+  // userPermission(showAll){
+  //   this.showAllUser = showAll
+  // }
 
   systemList(general, scan){
     this.general = general

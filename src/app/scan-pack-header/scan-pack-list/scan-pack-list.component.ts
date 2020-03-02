@@ -64,7 +64,13 @@ export class ScanPackListComponent implements OnInit {
     state: 'none',
     scan_states: {
     },
-    settings: {}
+    settings: {
+      order_verification: false,
+      click_scan_barcode: '',
+      click_scan: false,
+      scanned_barcode: '',
+      scanned: true
+    }
   }
   scanOrder:string;
   qty_remaining: ''
@@ -78,10 +84,8 @@ export class ScanPackListComponent implements OnInit {
 
   ngOnInit() {
     this.scanOrder =this.activatedRoute.snapshot.paramMap.get('name')
-    console.log(this.scanOrder)
     // this.subscription = this.orderService.getMessage().subscribe(receiveddata=>{
     //   this.data = receiveddata
-    //   console.log(this.data);
     //   
     // })
     this.get_scan_list()
@@ -100,7 +104,11 @@ export class ScanPackListComponent implements OnInit {
   get_scan_list(){
     // setTimeout(async ()=>{
       this.scanPackSettingService.get_settings(this.scan_pack).subscribe((response:any)=>{
-        this.scan_pack.settings = response
+        this.scan_pack.settings.order_verification = response.order_verification
+        this.scan_pack.settings.click_scan_barcode = response.click_scan_barcode
+        this.scan_pack.settings.click_scan = response.click_scan
+        this.scan_pack.settings.scanned_barcode = response.scanned_barcode
+        this.scan_pack.settings.scanned = response.scanned
         this.scan_barcode()
       })
     // }, 2000)
@@ -167,7 +175,6 @@ export class ScanPackListComponent implements OnInit {
     if(this.data.current_box == undefined){
       await this.scanPackSettingService.click_scan(this.data.data.order.next_item.barcodes[0].barcode, this.data.data.order.id, null)
       if(this.scanPackSettingService.scanResponse){
-        
         this.scan_barcode()
         // this.handle_scan_return();
       }
@@ -175,7 +182,6 @@ export class ScanPackListComponent implements OnInit {
     else{
       await this.scanPackSettingService.click_scan(this.data.data.order.next_item.barcodes[0].barcode, this.data.data.order.id, this.data.current_box.id)
       if(this.scanPackSettingService.scanResponse){
-        
         this.scan_barcode()
         // this.handle_scan_return();
       }

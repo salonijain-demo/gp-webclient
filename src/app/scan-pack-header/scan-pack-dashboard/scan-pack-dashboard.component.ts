@@ -45,9 +45,17 @@ export class ScanPackDashboardComponent implements OnInit {
     state: 'none',
     scan_states: {
     },
-    settings: {}
+    settings: {
+      order_verification: false,
+      click_scan_barcode: '',
+      click_scan: false,
+      scanned_barcode: '',
+      scanned: true,
+      scan_by_hex_number: false,
+      post_scanning_option: ''
+    }
   }
-  scanOrder:''
+  scanOrder:string;
   current_state = 'scanpack.rfo';
   is_clicked:boolean;
   qty_remaining: ''
@@ -61,7 +69,6 @@ export class ScanPackDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
     this.last_scanned_barcode = '';
     this.generalSettingService.get_settings(this.general_settings).subscribe((response:any)=> {
       // this.gen_setting_loaded = (new Date).getTime();
@@ -71,7 +78,13 @@ export class ScanPackDashboardComponent implements OnInit {
     // }
     //$scope.scan_pack_state = 'none';
     this.scanpackSettingService.get_settings(this.scan_pack).subscribe((response:any)=>{
-      this.scan_pack.settings = response
+      this.scan_pack.settings.order_verification = response.settings.order_verification
+      this.scan_pack.settings.click_scan_barcode = response.settings.click_scan_barcode
+      this.scan_pack.settings.click_scan = response.settings.click_scan
+      this.scan_pack.settings.scanned_barcode = response.settings.scanned_barcode
+      this.scan_pack.settings.scanned = response.settings.scanned
+      this.scan_pack.settings.scan_by_hex_number = response.settings.scan_by_hex_number;
+      this.scan_pack.settings.post_scanning_option = response.settings.post_scanning_option
       // angular.forEach(['success', 'fail', 'order_complete'], function (i) {
         // if ($scope.scan_pack.settings['show_' + i + '_image']) {
         //   $scope.scan_pack.scan_states[i].image.enabled = $scope.scan_pack.settings['show_' + i + '_image']; 
@@ -115,7 +128,7 @@ export class ScanPackDashboardComponent implements OnInit {
     var index = this.data.order.box.indexOf(this.data.current_box);
     if(type == 'next'){
       this.set('current_box', this.data.order.box[index+1]);
-    }else{
+    } else{
       this.set('current_box', this.data.order.box[index-1]);
     }
   }
@@ -205,17 +218,35 @@ export class ScanPackDashboardComponent implements OnInit {
     //   scope.qty_remaining = null
     // }
     // if(this.data.current_box == undefined){
-      await this.scanpackSettingService.input(this.scan_pack, this.scanOrder, this.current_state, id, this.qty_remaining, null, null)
+      await this.scanpackSettingService.input(this.scan_pack.settings, this.scanOrder, this.current_state, id, this.qty_remaining, null, null)
       if(this.scanpackSettingService.responses){
         this.response = this.scanpackSettingService.responses.response
+        // this.current_state = this.response.data.next_state
         if(this.response.data.inactive_or_new_products){
           this.inactive_or_new_products = this.response.data.inactive_or_new_products
           this.orderService.sendDataToOtherComponent(this.inactive_or_new_products);
           this.router.navigate(['../scanpack.rfp.product_edit', this.response.data.order_num],{ relativeTo: this.route})
-        }
-        else if(this.response.data.status == 'awaiting' && this.response.data.inactive_or_new_products == undefined){
-          // this.orderService.sendDataToOtherComponent(this.response);
-          this.router.navigate(['../scanpack.rfp.default', this.response.data.order_num], { relativeTo: this.route })
+        } else if(this.response.data.status == 'awaiting' && this.response.data.inactive_or_new_products == undefined){
+          if(this.scan_pack.settings.order_verification&& 
+            (this.response.data.order.unscanned_items.length == 0 && this.response.data.order.scanned_items.length == 0)){
+              this.router.navigate(['../scanandpack/rfp', this.response.data.order_num], { relativeTo: this.route })       
+          } else if(!this.scan_pack.settings.order_verification&&
+            (this.response.data.order.unscanned_items.length || this.response.data.order.scanned_items.length)){
+              this.router.navigate(['../scanandpack/rfp', this.response.data.order_num], { relativeTo: this.route })
+          } else if(this.scan_pack.settings.post_scanning_option=='Verify'&&
+            (this.response.data.order.unscanned_items.length == 0 && this.response.data.order.scanned_items.length == 0)&&
+            this.scan_pack.settings.order_verification == false){
+              this.current_state = 'scanpack.rfp.no_tracking_info';
+              this.router.navigate(['../scanandpack/rfp',this.response.data.order_num,'no_tracking_info'], {relativeTo: this.route })
+            } else if(this.scan_pack.settings.post_scanning_option=='Record'&&
+              (this.response.data.order.unscanned_items.length == 0 && this.response.data.order.scanned_items.length == 0)&&
+              this.scan_pack.settings.order_verification == false){
+                this.current_state = 'scanpack.rfp.recording';
+                this.router.navigate(['../scanandpack/rfp',this.response.data.order_num,'recording'],{relativeTo: this.route})
+              }
+        } else if(this.response.data.status == 'serviceissue'){
+          this.current_state = 'scanpack.rfp.confirmation.cos';
+          this.router.navigate(['../scanandpack/rfp',this.response.data.order_num,'confirmation/cos'],{relativeTo: this.route})
         }
         // ,{queryParams: {order: this.scanOrder}}
         // this.handle_scan_return()
@@ -235,7 +266,7 @@ export class ScanPackDashboardComponent implements OnInit {
     // } else {
     //   this.trigger_scan_message('fail');
     // }      
-  }
+  // }
 
   // $scope.handle_scan_return = function (data) {
   //   if ((data.data != "undefined") && (data.data.order!=undefined) && (data.data.order.store_type != undefined)) {
@@ -333,5 +364,5 @@ export class ScanPackDashboardComponent implements OnInit {
   //       }
   //     }
   //   }
-  // }
+  }
 }

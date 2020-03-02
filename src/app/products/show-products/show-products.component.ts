@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -11,8 +11,12 @@ export class ShowProductsComponent implements OnInit {
   @Input()
   productSelected: any;
 
+  @Output()
+  search_data = new EventEmitter<string>();
+
   showDropdownSelect: boolean = false;
   selectAll: boolean = true;
+  search:''
   products = {
     list: [],
     selected: [],
@@ -143,7 +147,11 @@ export class ShowProductsComponent implements OnInit {
     } else {
       // products.list.select_notification();
     }
-  };
+  }
+
+  get_search_data(event){
+    this.search_data.emit(event);
+  }
 
   // backup_product_csv() {
   //   this.general_settings = generalsettings.model.get();

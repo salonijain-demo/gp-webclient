@@ -1,21 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { general_settings } from '../interfaces/generalSettings';
+import { HttpClient } from '@angular/common/http';
+import{ environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingService {
   
-  url = "http://mydev.localpackerapi.com";
-  access_token =  localStorage.getItem('access_token');
-  
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.access_token
-    })
-  }
   system:any;
   exportItems: string;
   scheduleImportMode: string;
@@ -55,8 +46,8 @@ export class SettingService {
 
   async get_setting(setting){
     // time_in_zone = moment().format("Z");
-    var url = this.url + '/settings/get_settings.json';
-    await this.http.get<any>(url,this.httpOptions).toPromise().then((response:any) =>
+    var url = environment.baseUrl + '/settings/get_settings.json';
+    await this.http.get<any>(url).toPromise().then((response:any) =>
     {
       if (response.status) {
         this.scheduleImportMode = response.data.settings.schedule_import_mode
@@ -136,8 +127,8 @@ export class SettingService {
     //   this.general_settings.single.from_import = this.general_settings.single.from_import.replace("T", " ").replace("Z", "");
     // }
     this.generalSettings.single.time_to_send_email = this.generalSettings.single.time_to_send_email.toString().split("GMT")[0];
-    var url = this.url + '/settings/update_settings.json';
-    this.http.put(url, settings.single,this.httpOptions).subscribe((response: any) => {
+    var url = environment.baseUrl + '/settings/update_settings.json';
+    this.http.put(url, settings.single).subscribe((response: any) => {
       if (response.status) {
         this.get_setting(this.generalSettings);
         // notification.notify(response.success_messages, 1);

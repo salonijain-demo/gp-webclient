@@ -9,12 +9,12 @@
         <div *ngIf="showOrderDropdown">
           <ul class="list-unstyled components">
             <li><a class="dropdown-item" (click)="createOrder(orderModal)">Create</a></li>
-            <li><a class="dropdown-item" (click)="setup_child(true, false, false, false, false, false)">Show All</a></li>
-            <li><a class="dropdown-item" (click)="setup_child(false, true, false, false, false, false)">Awaiting</a></li>
-            <li><a class="dropdown-item" (click)="setup_child(false, false, true, false, false, false)">Action Required</a></li>
-            <li><a class="dropdown-item" (click)="setup_child(false, false, false, true, false, false)">Service</a></li>
-            <li><a class="dropdown-item" (click)="setup_child(false, false, false, false, true, false)">Cancelled</a></li>
-            <li><a class="dropdown-item" (click)="setup_child(false, false, false, false, false, true)">Scanned</a></li>
+            <li><a class="dropdown-item" [routerLink]="['all']" routerLinkActive="active">Show All</a></li>
+            <li><a class="dropdown-item" [routerLink]="['awaiting']" routerLinkActive="active">Awaiting</a></li>
+            <li><a class="dropdown-item" [routerLink]="['onhold']" routerLinkActive="active">Action Required</a></li>
+            <li><a class="dropdown-item" [routerLink]="['serviceissue']" routerLinkActive="active">Service</a></li>
+            <li><a class="dropdown-item" [routerLink]="['cancelled']" routerLinkActive="active">Cancelled</a></li>
+            <li><a class="dropdown-item" [routerLink]="['scanned']" routerLinkActive="active">Scanned</a></li>
           </ul>
         </div>
       </ul>
@@ -22,14 +22,16 @@
   </div>
   <div class="col-lg-10">
     <div class="col-lg-12">
-      <div class="row">
-        <app-show-orders *ngIf="order" [order]="order"></app-show-orders>
-        <app-show-all-order (order)="get_order($event)" *ngIf="allLink"></app-show-all-order>
+      <div class="row"> 
+        <app-show-orders></app-show-orders>
+        <!-- [order]="order" -->
+        <router-outlet></router-outlet>
+        <!-- <app-show-all-order (order)="get_order($event)" *ngIf="allLink"></app-show-all-order>
         <app-awaiting-order (order)="get_order($event)" *ngIf="awaitingLink"></app-awaiting-order>
         <app-action-required-order (order)="get_order($event)" *ngIf="onholdLink"></app-action-required-order>
         <app-service-issue-order (order)="get_order($event)" *ngIf="serviceissueLink" ></app-service-issue-order>
         <app-cancelled-order (order)="get_order($event)" *ngIf="cancelledLink"></app-cancelled-order>
-        <app-scanned-order (order)="get_order($event)" *ngIf="scannedLink"></app-scanned-order>
+        <app-scanned-order (order)="get_order($event)" *ngIf="scannedLink"></app-scanned-order> -->
       </div>
     </div>
   </div>

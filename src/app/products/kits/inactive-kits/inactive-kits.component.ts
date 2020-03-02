@@ -1,4 +1,4 @@
-import { Component, OnInit,EventEmitter, Output } from '@angular/core';
+import { Component, OnInit,EventEmitter, Output, Input } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -10,6 +10,9 @@ export class InactiveKitsComponent implements OnInit {
   
   @Output()
   productSelected = new EventEmitter<any>();
+
+  @Input()
+  search_data:string
 
   products = {
     list: [],
@@ -61,9 +64,14 @@ export class InactiveKitsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
     this.get_product();
   }
+  
+  ngOnChanges(){
+    this.products.setup.search = this.search_data
+    this.get_search_data()
+  }
+
   async get_product(){
     await this.productService.get_product()
     this.inventory_report_toggle = this.productService.responses.inventory_report_toggle;
@@ -102,5 +110,13 @@ export class InactiveKitsComponent implements OnInit {
       product.push(this.productList[element])
     })
     this.productSelected.emit(product)
+  }
+
+  get_search_data(){
+    this.productService.get_product_list(this.products,this.page)
+    var response = this.productService.response.response
+    if (response.status) {
+      this.productList = response.products
+    }
   }
 }

@@ -10,20 +10,20 @@
           <div *ngIf="productDropdown">
             <ul class="list-unstyled components">
               <li><a class="dropdown-item" (click)="openModal(createProductDropdown)">Create</a></li>
-              <li><a class="dropdown-item" (click)="product(true,false,false,false)">Show All</a></li>
-              <li><a class="dropdown-item" (click)="product(false,true,false,false)">Active Products</a></li>
-              <li><a class="dropdown-item" (click)="product(false,false,true,false)">Inactive Products</a></li>
-              <li><a class="dropdown-item" (click)="product(false,false,false,true)">New</a></li>
+              <li><a class="dropdown-item" [routerLink]="['product/all']" routerLinkActive="active">Show All</a></li>
+              <li><a class="dropdown-item" [routerLink]="['product/active']" routerLinkActive="active">Active Products</a></li>
+              <li><a class="dropdown-item" [routerLink]="['product/inactive']" routerLinkActive="active">Inactive Products</a></li>
+              <li><a class="dropdown-item" [routerLink]="['product/new']" routerLinkActive="active">New</a></li>
             </ul>
           </div>
       
           <li><a (click)="dropdownList(false,true,false)">Kits</a></li>
           <div *ngIf="kitDropdown">
             <ul class="list-unstyled components">
-              <li><a class="dropdown-item" (click)="kit(true,false,false,false)">Show All</a></li>
-              <li><a class="dropdown-item" (click)="kit(false,true,false,false)">Active Kits</a></li>
-              <li><a class="dropdown-item" (click)="kit(false,false,true,false)">Inactive Kits</a></li>
-              <li><a class="dropdown-item" (click)="kit(false,false,false,true)">New Kits</a></li>
+              <li><a class="dropdown-item" [routerLink]="['kit/all']" routerLinkActive="active">Show All</a></li>
+              <li><a class="dropdown-item" [routerLink]="['kit/active']" routerLinkActive="active">Active Kits</a></li>
+              <li><a class="dropdown-item" [routerLink]="['kit/inactive']" routerLinkActive="active">Inactive Kits</a></li>
+              <li><a class="dropdown-item" [routerLink]="['kit/new']" routerLinkActive="active">New Kits</a></li>
             </ul>
           </div>
 
@@ -39,15 +39,16 @@
     </div>
     <div class="col-lg-10">
       <div class="row">
-        <app-show-products [productSelected]="productSelected"></app-show-products>
-        <app-show-all-product (productSelected)="getProductSelected($event)" *ngIf="showAllProduct"></app-show-all-product>
-        <app-active-product (productSelected)="getProductSelected($event)" *ngIf="activeProduct"></app-active-product>
-        <app-inactive-product (productSelected)="getProductSelected($event)" *ngIf="inactiveProduct"></app-inactive-product>
-        <app-new-product (productSelected)="getProductSelected($event)" *ngIf="newProduct"></app-new-product>
-        <app-show-all-kits (productSelected)="getProductSelected($event)" *ngIf="showAllKit"></app-show-all-kits>
-        <app-active-kits (productSelected)="getProductSelected($event)" *ngIf="activeKit"></app-active-kits>
-        <app-inactive-kits (productSelected)="getProductSelected($event)" *ngIf="inactiveKit"></app-inactive-kits>
-        <app-new-kits (productSelected)="getProductSelected($event)" *ngIf="newKit"></app-new-kits>
+        <app-show-products (search_data)="get_search_data($event)" [productSelected]="productSelected"></app-show-products>
+        <router-outlet></router-outlet>
+        <!-- <app-show-all-product [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="showAllProduct"></app-show-all-product>
+        <app-active-product [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="activeProduct"></app-active-product>
+        <app-inactive-product [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="inactiveProduct"></app-inactive-product>
+        <app-new-product [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="newProduct"></app-new-product>
+        <app-show-all-kits [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="showAllKit"></app-show-all-kits>
+        <app-active-kits [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="activeKit"></app-active-kits>
+        <app-inactive-kits [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="inactiveKit"></app-inactive-kits>
+        <app-new-kits [search_data]="search_data" (productSelected)="getProductSelected($event)" *ngIf="newKit"></app-new-kits> -->
         <app-inventory-report *ngIf="inventoryReport"></app-inventory-report>
       </div>
     </div>

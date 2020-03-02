@@ -101,15 +101,13 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.subscription = this.orderService.getMessage().subscribe(receiveddata=>{
-      debugger
       if(this.orders.selected && receiveddata == 'export_items') {
         this.generate_orders_items_list();
-      }else
-       if(this.orders.selected && receiveddata == 'delete') {
+      }else if(this.orders.selected && receiveddata == 'delete') {
         this.order_delete();
       }
       else if(this.orders.selected && receiveddata == 'duplicate') {
@@ -120,6 +118,12 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
         || receiveddata == 'awaiting')) {
         this.order_change_status(receiveddata);
       }
+      else{
+        if(receiveddata !== ''){
+          this.orders.setup.search = receiveddata
+          this.get_search_data()
+        }
+      }
     })
   }
 
@@ -127,6 +131,10 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
     // this.childStateParams = { filter: this.activatedRoute.snapshot.queryParams.filter,
     //   page: this.activatedRoute.snapshot.queryParams.page }
     this.setup_child(this.childStateParams);
+    this.activatedRoute.params.subscribe(params => {
+     console.log(params['paramKey']);
+     debugger
+   })
   }
 
   ngOnDestroy(){
@@ -186,10 +194,8 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
       }
 
       this.url ='http://mydev.localpackerapi.com' + '/orders.json?' + 'filter=' +params.filter+'&sort='+params.sort+'&order='+params.order;
-      debugger
       return this.orderService.get_list_order(this.url).subscribe( (response: any) =>
         {
-          debugger
           if (this.ctrlKey == true){
             // this.order.selected.push(this.order.list);
             this.orders.selected = [].concat.apply([], this.orders.selected);
@@ -200,7 +206,6 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
           this.canLoadOrders = true;
           this.page_exists = page;
           this.orderData=response;
-          debugger
           this.order.emit(response);
         }, error => {
           this.canLoadOrders = true;
@@ -241,10 +246,8 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
   }
 
   order_delete(){
-    console.log(this.orders)
     this.orderService.update_list('delete', this.orders).subscribe((response:any)=>{
       if (response.status) {
-        debugger
         this.orders.setup.select_all = false;
         this.orders.setup.inverted = false;
         this.orders.selected = [];
@@ -333,7 +336,6 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
 
   getOrderSelected(event){
     this.orders.selected = event;
-    console.log('first selcted',this.orders.selected)
   }
 
   getEditedData(event){
@@ -342,9 +344,16 @@ export class ShowAllOrderComponent implements OnInit, OnDestroy {
       'var': event.name,
       'value': event.value
     }
-    console.log(this.orders.selected[0].id , this.editedData)
     this.orderService.update_order_list(this.editedData).subscribe(response =>{
       this.orders.selected = []
+    })
+  }
+
+  get_search_data(){
+    this.orderService.get_list(this.orders,this.page,false).subscribe((response:any)=>{
+      if (response.status) {
+        this.orderData = response
+      }
     })
   }
 }

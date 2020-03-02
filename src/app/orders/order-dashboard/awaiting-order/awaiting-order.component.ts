@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { paramsModel, allowStatusChanges, generalSettings, Options, gridOptions } from 'src/app/interfaces/order';
 import { OrderService } from 'src/app/services/order.service';
@@ -37,7 +37,7 @@ export class AwaitingOrderComponent implements OnInit {
     selected: [],
     single: {},
     load_new: true,
-    current: 0,
+    current: false,
     setup: {
       sort: "",
       order: "DESC",
@@ -100,7 +100,6 @@ export class AwaitingOrderComponent implements OnInit {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private orderService: OrderService
   ) { 
     this.orderService.getMessage().subscribe(receiveddata=>{
@@ -117,6 +116,12 @@ export class AwaitingOrderComponent implements OnInit {
         || receiveddata == 'scanned' || receiveddata == 'serviceissue'
         || receiveddata == 'awaiting')) {
         this.order_change_status(receiveddata);
+      }
+      else{
+        if(receiveddata !== ''){
+          this.orders.setup.search = receiveddata
+          this.get_search_data()
+        }
       }
     })
   }
@@ -191,6 +196,7 @@ export class AwaitingOrderComponent implements OnInit {
             this.canLoadOrders = true;
             this.page_exists = page;
             this.orderData=response;
+            this.orders.list = response.orders;
             this.order.emit(response);
           }, error => {
             this.canLoadOrders = true;
@@ -205,10 +211,8 @@ export class AwaitingOrderComponent implements OnInit {
     }
 
     order_delete(){
-      console.log(this.orders)
       this.orderService.update_list('delete', this.orders).subscribe((response:any)=>{
         if (response.status) {
-          debugger
           this.orders.setup.select_all = false;
           this.orders.setup.inverted = false;
           this.orders.selected = [];
@@ -303,9 +307,54 @@ export class AwaitingOrderComponent implements OnInit {
         'var': event.name,
         'value': event.value
       }
-      console.log(this.orders.selected[0].id , this.editedData)
       this.orderService.update_order_list(this.editedData).subscribe(response =>{
         this.orders.selected = []
       })
     }
+
+    get_search_data(){
+      this.orderService.get_list(this.orders,this.page,false).subscribe((response:any)=>{
+        if (response.status) {
+          this.orderData = response
+        //   this.orders.load_new = (response.orders.length > 0);
+        //   this.orders.orders_count = response.this.orders_count;
+        //   this.orders.list = response.this.orders;
+        //   for (var i = 0; i < this.orders.list.length; i++) {
+        //     if (this.orders.list[i].order_date!= null) {
+        //       this.orders.list[i].order_date = this.orders.list[i].order_date.replace("Z", "");
+        //     }
+        //   }
+          
+        //   this.orders.current = false;
+        //   if (this.orders.setup.select_all) {
+        //     this.orders.selected = [];
+        //   }
+        //   for (var i = 0; i < this.orders.list.length; i++) {
+        //     // if (this.orders.ctrlKey == true){
+        //       this.orders.list[i].checked =  true;
+        //     // }
+        //     if (this.orders.single && typeof this.orders.single['basicinfo'] != "undefined") {
+        //       // if (this.orders.list[i].id == this.orders.single.basicinfo.id) {
+        //       //   this.orders.current = i;
+        //       // }
+        //     }
+        //     if (this.orders.setup.select_all) {
+        //       this.orders.list[i].checked = this.orders.setup.select_all;
+        //       // select_single(this.orders, this.orders.list[i]);
+        //     } else {
+        //       for (var j = 0; j < this.orders.selected.length; j++) {
+        //         if (this.orders.list[i].id == this.orders.selected[j].id) {
+        //           this.orders.list[i].checked = this.orders.selected[j].checked;
+        //           break;
+        //         }
+        //       }
+        //     }
+        //   }
+        // } else {
+        //   // notification.notify("Can't load list of orders", 0);
+        }
+      },error=>{
+      // notification.server_error
+    })
+  }
 }

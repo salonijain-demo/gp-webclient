@@ -92,7 +92,6 @@ export class ItemsOrderComponent implements OnInit {
     this.orderService.create_single(this.orders).subscribe((response:any)=>{
       // this.orders.single = null
       if (response.status) {
-        debugger
         this.params.filter = 'onhold';
         response.order.new_order = true;
         this.orders.single.basicinfo = response.order;
@@ -142,7 +141,6 @@ export class ItemsOrderComponent implements OnInit {
   this.orderService.get_single(id).subscribe((response:any)=> {
     this.orders.single = null
     if (response.order) {
-      debugger
       //data.order.basicinfo.order_placed_time = new Date(data.order.basicinfo.order_placed_time);
       if (response.order.basicinfo.order_placed_time != null) {
         response.order.basicinfo.order_placed_time = response.order.basicinfo.order_placed_time.replace("Z", ""); 
@@ -180,7 +178,6 @@ export class ItemsOrderComponent implements OnInit {
 
   item_order(content) {
    this.openModal(content)
-   debugger
   }
   // ,type, exceptions, id
 

@@ -15,19 +15,19 @@
     <div class="col-lg-4 col-md-4">
       <div class="col-lg-offset-3 col-md-offset-3 col-lg-7 col-md-7 pull-left">
         <input type="text" class="form-control search-box" autofocus="autofocus" id="order-search-query"
-          [(ngModel)]="search"
-          *ngIf="orders.orders_count.all < 10000">
-
+          [(ngModel)]="search" (ngModelChange)="get_search_data($event)"
+          >
+          <!-- *ngIf="orders.orders_count.all < 10000" -->
         <!-- placeholder="{{ general_settings.single.search_by_product ? 'Order item search' : 'Search'}}" -->
 
         <input type="text" class="form-control search-box" autofocus="autofocus" id="order-search-query"
           [(ngModel)]="orders.setup.search_value"
           *ngIf="orders.orders_count.all > 10000"
-          ng-keypress="orders.setup.search = $event.keyCode == 13 ? orders.setup.search_value : orders.setup.search">
+          (keypress)="orders.setup.search = $event.keyCode == 13 ? orders.setup.search_value : orders.setup.search">
         <!-- placeholder="{{ general_settings.single.search_by_product ? 'Order item search' : 'Search'}}" -->
       </div>
-      <div class="col-lg-1 col-md-1 no-padding" ng-if="orders.orders_count.all > 10000">
-        <i class="fa fa-lg fa-arrow-right" ng-click="orders.setup.search = orders.setup.search_value" style="cursor:pointer;" aria-hidden="true" ng-style="{ 'color' : orders.setup.search_value  ? '#335223' : '#BDBDBD' }"></i>
+      <div class="col-lg-1 col-md-1 no-padding" *ngIf="orders.orders_count.all > 10000">
+        <i class="fa fa-lg fa-arrow-right" (click)="orders.setup.search = orders.setup.search_value" style="cursor:pointer;" aria-hidden="true" ng-style="{ 'color' : orders.setup.search_value  ? '#335223' : '#BDBDBD' }"></i>
       </div>
 
       <div class="col-lg-1 col-md-1 no-padding" groov-click="search_by_product()" groov-popover='When enabled, search by a product to find open orders which contain it.' popover-trigger="mouseenter" popover-placement="bottom" style="position: static;">

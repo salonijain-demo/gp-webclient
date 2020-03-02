@@ -8,8 +8,8 @@
     </div>
     <div class="col-lg-7 col-md-9">
       <div class="col-md-9 col-md-offset-3">
-        <input type="text" [(ngModel)]="users.setup.search" autofocus="autofocus"
-          id="user-search-query" class="form-control search-box" placeholder="Search">
+        <input type="text" [(ngModel)]="search" autofocus="autofocus"
+          id="user-search-query" class="form-control search-box" (ngModelChange)="get_search_data($event)" placeholder="Search">
       </div>
     </div>
     <div class="col-lg-1 col-md-1" ngbDropdown>

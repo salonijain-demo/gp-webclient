@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { StoreSettingService } from 'src/app/services/store-setting.service';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-show-all-store-settings',
@@ -9,6 +10,7 @@ import { StoreSettingService } from 'src/app/services/store-setting.service';
 export class ShowAllStoreSettingsComponent implements OnInit {
 
   settingSelected: any;
+  search:''
   stores = {
     list: [],
     selected: [],
@@ -156,5 +158,17 @@ export class ShowAllStoreSettingsComponent implements OnInit {
     } else {
       //  stores.list.select_notification();
     }
+  }
+
+  get_search_data(event){
+    var selected = []
+    this.stores.setup.search = event
+    this.showAllStoreSettingData.filter(element=>{
+    var result = element.name.includes(event)
+      if(result){
+        selected.push(element)
+      }
+    })
+    this.showAllStoreSettingData = selected
   }
 }

@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NotifierService } from "angular-notifier";
+import{ environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ScanPackSettingService {
-  access_token =  localStorage.getItem('access_token');
+  
   responses:any;
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.access_token
-    })
-  }
   order_modified = [];
   increment_id: '';
   username: string;
   scanResponse:any;
-  url = "http://mydev.localpackerapi.com";
   private readonly notifier: NotifierService;
 
   constructor(
@@ -29,16 +24,15 @@ export class ScanPackSettingService {
   }
 
   get_settings(model) {
-    debugger
-    return this.http.get(this.url + '/settings/get_scan_pack_settings.json', this.httpOptions) 
+    return this.http.get(environment.baseUrl + '/settings/get_scan_pack_settings.json') 
   }
 
   update_intagibleness(model) {
-    return this.http.post(this.url + '/products/update_intangibleness.json', model.settings,this.httpOptions)
+    return this.http.post(environment.baseUrl + '/products/update_intangibleness.json', model.settings)
   }
 
   update_settings(model) {
-    this.http.post(this.url + '/settings/update_scan_pack_settings.json', model.settings,this.httpOptions).subscribe((response:any)=>{
+    this.http.post(environment.baseUrl + '/settings/update_scan_pack_settings.json', model.settings).subscribe((response:any)=>{
       if (response.status) {
         this.get_settings(model);
         // this.notifier.notify(data.success_messages, 1);
@@ -49,11 +43,13 @@ export class ScanPackSettingService {
   }
 
   async input(scan_state, input, state, id, rem_qty, box_id, store_order_id) {
-    debugger
-    if (input == scan_state.settings.settings.click_scan_barcode && scan_state.settings.settings.click_scan) {
+    if(scan_state.scan_by_hex_number){
+      input = 'NaN'
+    }
+    if (input == scan_state.click_scan_barcode && scan_state.click_scan) {
       this.set_order_scanned('push');
       // barcode: scope.data.order.next_item.barcodes[0].barcode
-      return this.http.post(this.url + '/scan_pack/click_scan.json', { id: id, box_id: box_id})
+      return this.http.post(environment.baseUrl + '/scan_pack/click_scan.json', { id: id, box_id: box_id})
       .subscribe((response:any)=> {
         this.notifier.notify(response.notice_messages, '');
         this.notifier.notify(response.success_messages, '');
@@ -63,8 +59,8 @@ export class ScanPackSettingService {
         this.set_order_scanned('pop');
       })
     }
-    else if (input == scan_state.settings.settings.scanned_barcode && scan_state.settings.settings.scanned) {
-      return this.http.post(this.url + '/scan_pack/order_change_into_scanned.json', {id: id})
+    else if (input == scan_state.scanned_barcode && scan_state.scanned) {
+      return this.http.post(environment.baseUrl + '/scan_pack/order_change_into_scanned.json', {id: id})
       .subscribe((response:any)=>{
         this.notifier.notify(response.notice_messages, '');
         this.notifier.notify(response.success_messages, '');
@@ -76,7 +72,7 @@ export class ScanPackSettingService {
     }
     else{
       this.set_order_scanned('push');
-      await this.http.post(this.url + '/scan_pack/scan_barcode.json', {input: input, state: state, id: id, rem_qty: rem_qty, box_id: box_id, store_order_id: store_order_id}, this.httpOptions)
+      await this.http.post(environment.baseUrl + '/scan_pack/scan_barcode.json', {input: input, state: state, id: id, rem_qty: rem_qty, box_id: box_id, store_order_id: store_order_id})
       .toPromise().then((response:any)=>{
         try{
           this.username = response.data.order.firstname + " " + response.data.order.lastname;
@@ -122,13 +118,13 @@ export class ScanPackSettingService {
   }
 
   create_box(order_id, box){
-    return this.http.post(this.url + '/box.json', { order_id: order_id, name: 'Box '+ box },this.httpOptions);
+    return this.http.post(environment.baseUrl + '/box.json', { order_id: order_id, name: 'Box '+ box });
   }
   
   async click_scan(barcode, id, box_id) {
     this.set_order_scanned('push');
 
-    await this.http.post(this.url + '/scan_pack/click_scan.json', {barcode: barcode, id: id, box_id: box_id},this.httpOptions).toPromise().then(response=>{
+    await this.http.post(environment.baseUrl + '/scan_pack/click_scan.json', {barcode: barcode, id: id, box_id: box_id}).toPromise().then(response=>{
       // notification.notify(data.notice_messages, 2);
       // notification.notify(data.success_messages, 1);
       // notification.notify(data.error_messages, 0);
@@ -142,13 +138,11 @@ export class ScanPackSettingService {
   }
 
   reset(id) {
-    debugger
-    return this.http.post(this.url + '/scan_pack/reset_order_scan.json', {order_id: id},this.httpOptions)
+    return this.http.post(environment.baseUrl + '/scan_pack/reset_order_scan.json', {order_id: id})
   }
 
   // add_note(id, send_email, note) {
-  //   debugger
-  //   return this.http.post(this.url + '/scan_pack/add_note.json', {id: id, email: send_email, note: note},this.httpOptions).success(function (data) {
+  //   return this.http.post(environment.baseUrl + '/scan_pack/add_note.json', {id: id, email: send_email, note: note}).success(function (data) {
   //     notification.notify(data.notice_messages, 2);
   //     notification.notify(data.success_messages, 1);
   //     notification.notify(data.error_messages, 0);

@@ -10,7 +10,7 @@
             <li><a (click)="dropdownList(true,false,false,false,false)">Store Settings</a></li>
             <div *ngIf="storeSettingsDropdown">
               <ul class="list-unstyled components">
-                <li><a class="dropdown-item" (click)="storeSetting(true)">Show All</a></li>
+                <li><a class="dropdown-item" [routerLink]="['stores']" routerLinkActive="active">Show All</a></li>
                 <li><a class="dropdown-item" (click)="showModal(createStoreDropdown)">Create Store</a></li>
                 <li><a class="dropdown-item">Import Orders</a></li>
               </ul>
@@ -23,7 +23,7 @@
             <li><a (click)="dropdownList(false,true,false,false,false)">Users & Permissions</a></li>
             <div *ngIf="settingsUserPermission">
               <ul class="list-unstyled components">
-                <li><a class="dropdown-item" (click)="userPermission(true,false)">Show All</a></li>
+                <li><a class="dropdown-item" [routerLink]="['users']" routerLinkActive="active">Show All</a></li>
                 <li><a class="dropdown-item" (click)="showModal(createUserDropdown)">Create User</a></li>
               </ul>
             </div>
@@ -75,8 +75,9 @@
     <div class="col-lg-10">
       <div class="col-lg-12">
         <div class="row">
-          <app-show-all-store-settings *ngIf="showAllSetting"></app-show-all-store-settings>
-          <app-show-all-user-permission *ngIf="showAllUser"></app-show-all-user-permission>
+          <router-outlet></router-outlet>
+          <!-- <app-show-all-store-settings *ngIf="showAllSetting"></app-show-all-store-settings>
+          <app-show-all-user-permission *ngIf="showAllUser"></app-show-all-user-permission> -->
           <app-create-user-permission *ngIf="createUser"></app-create-user-permission>
           <app-general-preference *ngIf="general"></app-general-preference>
           <app-scan-pack-options *ngIf="scan"></app-scan-pack-options>

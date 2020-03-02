@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -40,7 +40,7 @@ export class ShowOrdersComponent implements OnInit {
     private orderService: OrderService
   ) { }
 
-  ngOnInit(){}
+  ngOnInit(){ }
 
   ngOnChanges(){
     this.orders = this.order
@@ -55,6 +55,10 @@ export class ShowOrdersComponent implements OnInit {
   }
 
   actionListener(action){
-    this.orderService.sendDataToOtherComponent(action);
+    this.orderService.sendDataToOtherComponent(action)
+  }
+
+  get_search_data(event){
+    this.orderService.sendDataToOtherComponent(event)
   }
 }

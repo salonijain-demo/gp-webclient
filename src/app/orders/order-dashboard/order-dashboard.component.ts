@@ -9,6 +9,7 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 })
 export class OrderDashboardComponent implements OnInit {
   
+  // search_data:string;
   order:any;
   orderSelected:any;
   allLink: boolean;
@@ -32,15 +33,6 @@ export class OrderDashboardComponent implements OnInit {
 
 
   ngOnInit() {
-  }
-
-  setup_child(all, awaiting, onhold, serviceissue, cancelled, scanned) {
-    this.allLink = all;
-    this.awaitingLink= awaiting;
-    this.onholdLink= onhold;
-    this.serviceissueLink= serviceissue;
-    this.cancelledLink= cancelled;
-    this.scannedLink= scanned;
   }
 
   showOrderDropdownList(){

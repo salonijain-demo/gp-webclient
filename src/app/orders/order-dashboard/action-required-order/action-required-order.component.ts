@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { paramsModel, allowStatusChanges, generalSettings, Options, gridOptions } from 'src/app/interfaces/order';
 import { OrderService } from 'src/app/services/order.service';
@@ -9,6 +9,9 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./action-required-order.component.scss']
 })
 export class ActionRequiredOrderComponent implements OnInit {
+
+  @Input()
+  search_data: string;
 
   @Output()
   orderSelected = new EventEmitter<any>();
@@ -123,6 +126,11 @@ export class ActionRequiredOrderComponent implements OnInit {
 
   ngOnInit() {
     this.setup_child(this.childStateParams);
+  }
+
+  ngOnChanges(){
+    this.orders.setup.search = this.search_data
+    this.get_search_data()
   }
 
   setup_child(childStateParams){
@@ -240,10 +248,8 @@ export class ActionRequiredOrderComponent implements OnInit {
     }
 
     order_delete(){
-      console.log(this.orders)
       this.orderService.update_list('delete', this.orders).subscribe((response:any)=>{
         if (response.status) {
-          debugger
           this.orders.setup.select_all = false;
           this.orders.setup.inverted = false;
           this.orders.selected = [];
@@ -251,7 +257,7 @@ export class ActionRequiredOrderComponent implements OnInit {
             // alert()
             this.get_orders(this.page);
           // }, 5000)
-          // notification.notify(success_messages[action], 1);
+          // notification.notify(success_messages[action], 1);t
           // notification.notify(data.notice_messages, 2);
         } else {
           // notification.notify(data.error_messages, 0);
@@ -308,9 +314,16 @@ export class ActionRequiredOrderComponent implements OnInit {
         'var': event.name,
         'value': event.value
       }
-      console.log(this.orders.selected[0].id , this.editedData)
       this.orderService.update_order_list(this.editedData).subscribe(response =>{
         this.orders.selected = []
       })
     }
-}
+
+    get_search_data(){
+      this.orderService.get_list(this.orders,this.page,false).subscribe((response:any)=>{
+        if (response.status) {
+          this.orderData = response
+        }
+      })
+    }
+  }

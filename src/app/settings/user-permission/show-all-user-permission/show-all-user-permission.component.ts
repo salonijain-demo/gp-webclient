@@ -168,4 +168,16 @@ export class ShowAllUserPermissionComponent implements OnInit {
       this.get_users();
     })
   }
+
+  get_search_data(event){
+    var selected = []
+    this.users.setup.search = event
+    this.showAllPermissionData.filter(element=>{
+    var result = element.username.includes(event)
+      if(result){
+        selected.push(element)
+      }
+    })
+    this.showAllPermissionData = selected
+  }
 }

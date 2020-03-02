@@ -28,6 +28,18 @@
   border-top-right-radius: 10px;
 }
 
+.dropdown-item.active {
+  background-color: #558641;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.dropdown-item:hover {
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+}
+
 .modal-content{
   width: 175%;
   position: absolute;

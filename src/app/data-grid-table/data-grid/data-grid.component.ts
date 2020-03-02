@@ -97,23 +97,10 @@ export class DataGridComponent implements OnInit {
   ngOnInit() {
     // this.initilaizeTarget();
     // this.ejDialog.hide();
-
     this.pageSettings = { pageSize: 20 };
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Batch' };
     this.selectionOptions = { type: 'Multiple', enableSimpleMultiRowSelection: true };
 
-    if(this.settingData.length != 0){
-      this.showOrder = false;
-      this.getStoreSettingData();
-    }
-    if(this.userSettingData.length != 0){
-      this.showOrder = false;
-      this.getUserPermissionData();
-    }
-    if(this.productData){
-      this.showOrder = false;
-      this.productListData();
-    }
     if(this.productDatas){
       this.showOrder = false;
       this.productListDatas();
@@ -127,8 +114,20 @@ export class DataGridComponent implements OnInit {
   }
 
   ngOnChanges(){
-    debugger
-    if(this.orderData != undefined){
+    if(this.userSettingData.length != 0){
+      this.showOrder = false;
+      this.getUserPermissionData();
+    }
+    else if(this.settingData.length != 0){
+      this.showOrder = false;
+      this.getStoreSettingData();
+    }
+    else if(this.productData){
+      this.showOrder = false;
+      this.productListData();
+    }
+
+    else if(this.orderData != undefined){
     this.showOrder = true;
     if(this.orderData.length != 0){
       var order = [];
@@ -165,8 +164,6 @@ export class DataGridComponent implements OnInit {
       }
     }
     }
-    console.log('orde5rVAlues',this.orderDataValues)
-    debugger
     if(this.itemOrderData != undefined){
       this.showOrder = false;
       this.createItemOrderData();
@@ -313,7 +310,6 @@ export class DataGridComponent implements OnInit {
     else{
       this.selectedRowData.push(this.selectedRow)
     }
-    console.log('selected data',this.selectedRowData)
     this.selected.emit(this.selectedRowData)
     this.selectedRowData = [];
   }
@@ -332,7 +328,6 @@ export class DataGridComponent implements OnInit {
   }
 
   openModal(content){
-    debugger
     this.modalReference = this.modalService.open(content,this.modalOptions);
   }
   
@@ -345,13 +340,11 @@ export class DataGridComponent implements OnInit {
   }
 
   // public initilaizeTarget: EmitType<object> = () => {
-  //   debugger
   //   this.ejDialog.hide();
     
   // }
 
   // onOpenDialog(event: any): void {
-  //   debugger
   //   this.ejDialog.show();
   //   this.targetElement = this.container.nativeElement.parentElement;
   // }

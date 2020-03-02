@@ -30,4 +30,12 @@ export class BaseComponent implements OnInit {
   openScanPack(){
     this.router.navigate(['/scan']);
   }
+
+  sign_out() {
+    localStorage.removeItem('current_user');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('created_at');
+    this.router.navigate(['/']);
+  }
 }

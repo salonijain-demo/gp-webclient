@@ -14,12 +14,10 @@ export class CreateOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger
   }
 
   get_order_created(event){
     this.created_order = event;
-    console.log('created_order',this.created_order)
   }
 
   getOrderToProceed(event){

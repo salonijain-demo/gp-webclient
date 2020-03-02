@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Data } from '@syncfusion/ej2-angular-grids';
+import{ environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +15,7 @@ export class OrderService {
     private http: HttpClient
   ) { }
 
-  url = "http://mydev.localpackerapi.com";
-  access_token =  localStorage.getItem('access_token');
   order_modified =[];
-  
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.access_token
-    })
-  }
 
   private shareDataSubject = new BehaviorSubject<any>({});
 
@@ -38,32 +28,32 @@ export class OrderService {
   }
 
   orders_single_update(orderId, orderData){
-    return this.http.put(this.url + "/orders/" + orderId + ".json",{order: orderData},this.httpOptions)
+    return this.http.put(environment.baseUrl + "/orders/" + orderId + ".json",{order: orderData})
   }
 
   create_single(order){
     if(this.i==1){
       this.i++
-      return this.http.post(this.url + '/orders', order, this.httpOptions)
+      return this.http.post(environment.baseUrl + '/orders', order)
     }
   }
 
   get_list_order(url){
-    return this.http.get(url,this.httpOptions);
+    return this.http.get(url);
   }
 
   get_setting(){
-    var url = this.url + '/settings/get_settings.json';
-    return this.http.get(url,this.httpOptions)
+    var url = environment.baseUrl + '/settings/get_settings.json';
+    return this.http.get(url)
   }
 
   addTimeZone(time_zone){
-    var url = this.url + '/settings/fetch_and_update_time_zone.json';
-    return this.http.post(url, time_zone, this.httpOptions)
+    var url = environment.baseUrl + '/settings/fetch_and_update_time_zone.json';
+    return this.http.post(url, time_zone)
   }
 
   get_single(id) {
-    return this.http.get(this.url + '/orders/' + id + '.json', this.httpOptions)
+    return this.http.get(environment.baseUrl + '/orders/' + id + '.json')
   }
 
   get_list(object, page, product_search_toggle) {
@@ -79,37 +69,37 @@ export class OrderService {
     } catch(e){}
     object.setup.offset = page * object.setup.limit;
     if (setup.search == '') {
-      url = this.url + '/orders.json?filter=' + setup.filter +  '&sort=' + setup.sort + '&order=' + setup.order;
+      url = environment.baseUrl + '/orders.json?filter=' + setup.filter +  '&sort=' + setup.sort + '&order=' + setup.order;
     } else {
-      url = this.url + '/orders/search.json?search=' + setup.search + '&sort=' + setup.sort + '&order=' + setup.order;
+      url = environment.baseUrl + '/orders/search.json?search=' + setup.search + '&sort=' + setup.sort + '&order=' + setup.order;
     }
     url += '&limit=' + setup.limit + '&offset=' + setup.offset + '&product_search_toggle=' + product_search_toggle;
-    return this.http.get(url,this.httpOptions)
+    return this.http.get(url)
   }
 
   orders_update(orderData,auto){
     if (typeof auto !== "boolean") {
       auto = true;
     }
-    return this.http.put(this.url + "/orders/" + orderData.id + ".json",{order: orderData},this.httpOptions)
+    return this.http.put(environment.baseUrl + "/orders/" + orderData.id + ".json",{order: orderData})
   }
 
   single_record_exception(orders) {
     if(orders.single.exception.assoc==undefined) {
       orders.single.exception.assoc = orders.single.users[0];
     }
-    return this.http.post(this.url + 
+    return this.http.post(environment.baseUrl + 
       '/orders/'+orders.single.basicinfo.id+'/record_exception.json',
       {
         reason: orders.single.exception.reason,
         description: orders.single.exception.description,
         assoc: orders.single.exception.assoc
-      },this.httpOptions
+      }
     )
   }
 
   single_clear_exception(orders) {
-    return this.http.post(this.url + '/orders/'+orders.single.basicinfo.id+'/clear_exception.json', this.httpOptions)
+    return this.http.post(environment.baseUrl + '/orders/'+orders.single.basicinfo.id+'/clear_exception.json',{})
   }
 
   update_list(action, orders) {
@@ -128,13 +118,13 @@ export class OrderService {
 
       var url = '';
       if (action == "delete") {
-        url = this.url + '/orders/delete_orders.json';
+        url = environment.baseUrl + '/orders/delete_orders.json';
       } else if (action == "duplicate") {
-        url = this.url + '/orders/duplicate_orders.json';
+        url = environment.baseUrl + '/orders/duplicate_orders.json';
       } else if (action == "update_status") {
-        url = this.url + '/orders/change_orders_status.json';
+        url = environment.baseUrl + '/orders/change_orders_status.json';
       }
-      return this.http.post(url, orders.setup, this.httpOptions)
+      return this.http.post(url, orders.setup)
     }
   }
 
@@ -156,7 +146,7 @@ export class OrderService {
     var barcode_url;
     //set url for each action.
     if (action == "pick_list") {
-      url = this.url + '/orders/generate_pick_list.json';
+      url = environment.baseUrl + '/orders/generate_pick_list.json';
     }
     else if (action == "packing_slip") {
       if (orders.setup.select_all == true && orders.html_print == true){
@@ -165,19 +155,19 @@ export class OrderService {
           // angular.forEach(orders.selected, function(value, key) {
           //   ids.push(value.id)
           // });
-          slip_url = this.url + '/orders/generate_all_packing_slip?filter='+orders.setup.filter+'&limit='+orders.setup.limit+'&select_all='+orders.setup.select_all+'&sort='+orders.setup.sort+'&product_search_toggle='+ orders.product_search_toggle +'&offset=' + orders.setup.offset+'&search='+orders.setup.search+'&order='+orders.setup.order;
+          slip_url = environment.baseUrl + '/orders/generate_all_packing_slip?filter='+orders.setup.filter+'&limit='+orders.setup.limit+'&select_all='+orders.setup.select_all+'&sort='+orders.setup.sort+'&product_search_toggle='+ orders.product_search_toggle +'&offset=' + orders.setup.offset+'&search='+orders.setup.search+'&order='+orders.setup.order;
         }else{
-          slip_url = this.url + '/orders/generate_all_packing_slip?filter='+orders.setup.filter+'&sort='+orders.setup.sort+'&order='+orders.setup.order;
+          slip_url = environment.baseUrl + '/orders/generate_all_packing_slip?filter='+orders.setup.filter+'&sort='+orders.setup.sort+'&order='+orders.setup.order;
         }
         window.open(slip_url);
       } else {
-        url = this.url + '/orders/generate_packing_slip.json';
+        url = environment.baseUrl + '/orders/generate_packing_slip.json';
       }
     } else if (action == 'items_list') {
-      url = this.url + '/orders/order_items_export.json';
+      url = environment.baseUrl + '/orders/order_items_export.json';
     } else if (action == 'barcode_slip') {
       if (orders.setup.select_all == true){
-        url = this.url + '/products/bulk_barcode_generation?ids=all&status=' + orders.setup.filter;
+        url = environment.baseUrl + '/products/bulk_barcode_generation?ids=all&status=' + orders.setup.filter;
         barcode_url =  null
       } else {
         var ids = ""
@@ -185,10 +175,10 @@ export class OrderService {
           ids = ids + "," + element.id
         })
         if (orders.setup.orderArray.length > 20) {
-          url = this.url + '/products/bulk_barcode_generation?ids=' + ids;
+          url = environment.baseUrl + '/products/bulk_barcode_generation?ids=' + ids;
           barcode_url = null
         } else{
-          barcode_url = this.url + '/products/bulk_barcode_pdf.pdf?ids=' + ids;
+          barcode_url = environment.baseUrl + '/products/bulk_barcode_pdf.pdf?ids=' + ids;
         }
       }
       if (barcode_url != null) {
@@ -197,12 +187,12 @@ export class OrderService {
     }
     //send post http request and catch the response to display the pdfs.
     if (url != ""){
-      return this.http.post(url, orders.setup, this.httpOptions)
+      return this.http.post(url, orders.setup)
     }
   }
 
   update_order_list(orders){
-    return this.http.post(this.url + '/orders/update_order_list.json', orders, this.httpOptions)
+    return this.http.post(environment.baseUrl + '/orders/update_order_list.json', orders)
   }
 
   generate_box_slip(order, box_ids, type){
@@ -210,6 +200,6 @@ export class OrderService {
     if(typeof this.order_modified == 'undefined'){this.order_modified = []};
     this.order_modified.push(order.increment_id);
     var orderArray = [{id: order.id}];
-    return this.http.post(this.url + '/orders/generate_packing_slip.json', { orderArray: orderArray, box_ids: box_ids, packing_type: type }, this.httpOptions);
+    return this.http.post(environment.baseUrl + '/orders/generate_packing_slip.json', { orderArray: orderArray, box_ids: box_ids, packing_type: type });
   }
 }

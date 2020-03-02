@@ -52,13 +52,11 @@ export class AddItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    debugger
     this.get_products_list(this.page)
   }
   
   ngOnChanges(){
     this.allowToAddItems = this.orderItems
-    debugger
   }
 
   async get_products_list(page) {
@@ -81,7 +79,6 @@ export class AddItemComponent implements OnInit {
     // })
     product.push(event)
     this.productSelected = product
-    debugger
     if(this.allowToAddItems && this.productSelected){
       this.addItems()
     }
@@ -91,7 +88,6 @@ export class AddItemComponent implements OnInit {
   addItems(){
     if(this.allowToAddItems && this.productSelected){
       this.productService.single_add_item(this.productSelected,this.allowToAddItems.id).subscribe((response)=>{
-        debugger
       })
     }
   }

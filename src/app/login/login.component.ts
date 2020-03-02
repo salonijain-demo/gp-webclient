@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   login(auth_form, content) {
     this.loginService.login(auth_form.username, auth_form.password).subscribe( (response: any) =>
-    {debugger
+    {
       localStorage.setItem('access_token', response.access_token);
       localStorage.setItem('refresh_token', response.refresh_token);
       localStorage.setItem('created_at', response.created_at);

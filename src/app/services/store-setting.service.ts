@@ -1,20 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import{ environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreSettingService {
-  access_token =  localStorage.getItem('access_token');
-  
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.access_token
-    })
-  }
-
-  url = "http://mydev.localpackerapi.com";
 
   constructor(
     private http : HttpClient
@@ -22,7 +13,7 @@ export class StoreSettingService {
 
   get_list(object) {
     var result = [];
-    return this.http.get(this.url + '/stores.json', this.httpOptions)
+    return this.http.get(environment.baseUrl + '/stores.json')
       // {
       //   result = $filter('filter')(response, object.setup.search);
       //   result = $filter('orderBy')(result, object.setup.sort, (object.setup.order == 'DESC'));
@@ -33,11 +24,11 @@ export class StoreSettingService {
   }
 
   can_create_single() {
-    return this.http.get(this.url + '/stores/let_store_be_created.json',this.httpOptions)
+    return this.http.get(environment.baseUrl + '/stores/let_store_be_created.json')
   }
 
   can_create_single_user() {
-    return this.http.get(this.url + '/users/let_user_be_created.json',this.httpOptions)
+    return this.http.get(environment.baseUrl + '/users/let_user_be_created.json')
   }
 
   validate_create_single(stores){
@@ -73,11 +64,11 @@ export class StoreSettingService {
       auto = true;
     }
     var params = stores.single
-    return this.http.post(this.url + '/stores/create_update_store.json' ,params,this.httpOptions)
+    return this.http.post(environment.baseUrl + '/stores/create_update_store.json' ,params)
     // return this.http({
     //   method: 'POST',
     //   headers: {'Content-Type': undefined},
-    //   url: this.url + '/stores/create_update_store.json',
+    //   url: environment.baseUrl + '/stores/create_update_store.json',
     //   transformRequest: function (data) {
     //     var request = new FormData();
     //     for (var key in data) {
@@ -101,13 +92,13 @@ export class StoreSettingService {
       }
       var url = '';
       if (action == "delete") {
-        url = this.url + '/stores/delete_store.json';
+        url = environment.baseUrl + '/stores/delete_store.json';
       } else if (action == "duplicate") {
-        url = this.url + '/stores/duplicate_store.json';
+        url = environment.baseUrl + '/stores/duplicate_store.json';
       } else if (action == "update_status") {
-        url = this.url + '/stores/change_store_status.json';
+        url = environment.baseUrl + '/stores/change_store_status.json';
       }
-      return this.http.post(url, stores.setup.storeArray, this.httpOptions)
+      return this.http.post(url, stores.setup.storeArray)
     }
   }
 }

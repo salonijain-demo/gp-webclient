@@ -14,7 +14,8 @@
   <div class="col-lg-7 col-md-7">
     <div class="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 pull-left">
       <input type="text" id="product-search-query" autofocus="autofocus" class="form-control search-box"
-        ng-model="products.setup.search" placeholder="Search">
+      [(ngModel)]="search" (ngModelChange)="get_search_data($event)"
+      placeholder="Search">
     </div>
   </div>
   <div class="col-lg-1 col-md-1" ngbDropdown>

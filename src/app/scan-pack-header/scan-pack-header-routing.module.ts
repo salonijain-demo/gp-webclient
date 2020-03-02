@@ -5,21 +5,21 @@ import { ScanPackListComponent } from './scan-pack-list/scan-pack-list.component
 import { ScanPackProductEditComponent } from './scan-pack-product-edit/scan-pack-product-edit.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'scanpack.rfo', pathMatch: 'full'},
-  {path: 'scanpack.rfo', component: ScanPackDashboardComponent},
+  {path: '', redirectTo: 'scanandpack', pathMatch: 'full'},
+  {path: 'scanandpack', component: ScanPackDashboardComponent},
   // {path: 'scanpack.rfp', component: },
-  {path: 'scanpack.rfp.default/:name', component: ScanPackListComponent},
-  {path: 'scanpack.rfp.product_edit/:name', component: ScanPackProductEditComponent},
-  // {path: 'scanpack.rfp.recording', component: },
+  {path: 'scanandpack/rfp/:name', component: ScanPackListComponent},
+  {path: 'scanandpack/rfp/:name/product_edit', component: ScanPackDashboardComponent},
+  {path: 'scanandpack/rfp/:name/recording', component: ScanPackDashboardComponent},
   // {path: 'scanpack.rfp.verifying', component: },
-  // {path: 'scanpack.rfp.no_tracking_info', component: },
+  {path: 'scanandpack/rfp/:name/no_tracking_info', component: ScanPackDashboardComponent},
   // {path: 'scanpack.rfp.no_match', component: },
   // {path: 'scanpack.rfp.product_edit', component: },
   // {path: 'scanpack.rfp.product_edit.single', component: },
   // {path: 'scanpack.rfp.confirmation', component: },
   // {path: 'scanpack.rfp.confirmation.order_edit', component: }
   // {path: 'scanpack.rfp.confirmation.product_edit', component: }
-  // {path: 'scanpack.rfp.confirmation.cos', component: }
+  {path: 'scanandpack/rfp/:name/confirmation/cos', component: ScanPackDashboardComponent}
 ];
 
 @NgModule({

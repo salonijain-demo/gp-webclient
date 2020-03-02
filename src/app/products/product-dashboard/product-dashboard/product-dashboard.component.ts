@@ -28,6 +28,7 @@ export class ProductDashboardComponent implements OnInit {
     backdrop: 'static',
     keyboard: false
   }
+  search_data:string
 
   constructor(
     private modalService: NgbModal
@@ -37,17 +38,17 @@ export class ProductDashboardComponent implements OnInit {
     this.productDropdown = true;
     this.kitDropdown = false;
     this.inventoryDropdown = false;
-    this.product(false,this.productDropdown,false,false)
+    // this.product(false,this.productDropdown,false,false)
   }
 
   dropdownList(productDropdown, kitDropdown, inventoryDropdown){
     if(!productDropdown){
       this.productDropdown = false
-      this.product(false,false,this.productDropdown,false)
+      // this.product(false,false,this.productDropdown,false)
     }
     if(!kitDropdown){
       this.kitDropdown = false
-      this.kit(false,kitDropdown,false,false)
+      // this.kit(false,kitDropdown,false,false)
     }
     if(!inventoryDropdown){
       this.inventoryDropdown = false
@@ -58,7 +59,7 @@ export class ProductDashboardComponent implements OnInit {
     }
     if(kitDropdown){
       this.kitDropdown = !this.kitDropdown
-      this.kit(false,kitDropdown,false,false)
+      // this.kit(false,kitDropdown,false,false)
     }
     if(inventoryDropdown){
       this.inventoryDropdown = !this.inventoryDropdown
@@ -66,19 +67,19 @@ export class ProductDashboardComponent implements OnInit {
     }
   }
 
-  product(showAllProduct,activeProduct,inactiveProduct,newProduct){
-    this.showAllProduct = showAllProduct
-    this.activeProduct = activeProduct
-    this.inactiveProduct = inactiveProduct
-    this.newProduct = newProduct
-  }
+  // product(showAllProduct,activeProduct,inactiveProduct,newProduct){
+  //   this.showAllProduct = showAllProduct
+  //   this.activeProduct = activeProduct
+  //   this.inactiveProduct = inactiveProduct
+  //   this.newProduct = newProduct
+  // }
 
-  kit(showAllKit,activeKit,inactiveKit,newKit){
-    this.showAllKit = showAllKit
-    this.activeKit = activeKit
-    this.inactiveKit = inactiveKit
-    this.newKit = newKit
-  }
+  // kit(showAllKit,activeKit,inactiveKit,newKit){
+  //   this.showAllKit = showAllKit
+  //   this.activeKit = activeKit
+  //   this.inactiveKit = inactiveKit
+  //   this.newKit = newKit
+  // }
 
   inventory(inventoryReport){
     this.inventoryReport = inventoryReport
@@ -98,5 +99,9 @@ export class ProductDashboardComponent implements OnInit {
 
   getProductSelected(e){
     this.productSelected = e
+  }
+
+  get_search_data(event){
+    this.search_data = event
   }
 }

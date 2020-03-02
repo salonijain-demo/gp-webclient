@@ -1,21 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { async } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
+import{ environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  access_token =  localStorage.getItem('access_token');
-  
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.access_token
-    })
-  }
 
-  url = "http://mydev.localpackerapi.com";
   responses:any;
   response:any;
   can_load_products: boolean;
@@ -26,7 +17,7 @@ export class ProductService {
   ) { }
 
   async get_product(){
-    await this.http.get<any>(this.url+ '/products/get_inventory_setting.json', this.httpOptions).toPromise().then((response:any)=>
+    await this.http.get<any>(environment.baseUrl+ '/products/get_inventory_setting.json').toPromise().then((response:any)=>
     {
       try{
         response.setting.time_to_send_report_email = response.setting.time_to_send_report_email.replace("T", " ").replace("Z", "");
@@ -56,16 +47,16 @@ export class ProductService {
         // products.ctrlKey = event.ctrlKey;
       } catch(e){}
       products.setup.offset = page * products.setup.limit;
-      if (setup.search == '') {
-        url = this.url + '/products.json?filter=' + setup.filter + '&sort=' + setup.sort + '&order=' + setup.order;
+      if (setup.search == '' || setup.search == undefined) {
+        url = environment.baseUrl + '/products.json?filter=' + setup.filter + '&sort=' + setup.sort + '&order=' + setup.order;
       } else {
-        url = this.url + '/products/search.json?' + 'search='+ setup.search +'&sort='+setup.sort+ '&order=' + setup.order;
+        url = environment.baseUrl + '/products/search.json?' + 'search='+ setup.search +'&sort='+setup.sort+ '&order=' + setup.order;
       }
       if(products.setup.report_id) {
-        url = this.url +'/products/get_report_products?report_id=' + products.setup.report_id + '&filter=' + setup.filter + '&sort=' + setup.sort + '&order=' + setup.order + '&search=' + setup.search;
+        url = environment.baseUrl +'/products/get_report_products?report_id=' + products.setup.report_id + '&filter=' + setup.filter + '&sort=' + setup.sort + '&order=' + setup.order + '&search=' + setup.search;
       }
       url += '&is_kit=' + setup.is_kit + '&limit=' + setup.limit + '&offset=' + setup.offset;
-      await this.http.get<any>(url,this.httpOptions).toPromise().then((response:any)=>
+      await this.http.get<any>(url).toPromise().then((response:any)=>
         {
           if (response.status) {
             products.load_new = (response.products.length > 0);
@@ -135,14 +126,14 @@ export class ProductService {
     }
 
     get_single_product(id) {
-      return this.http.get(this.url + '/products/' + id + '.json',this.httpOptions)
+      return this.http.get(environment.baseUrl + '/products/' + id + '.json')
     }
 
     update_single(products, auto) {
       if (typeof auto !== "boolean") {
         auto = true;
       }
-      return this.http.put(this.url + '/products/'+products.single.basicinfo.id+'.json', products.single, this.httpOptions)
+      return this.http.put(environment.baseUrl + '/products/'+products.single.basicinfo.id+'.json', products.single)
     }
 
     update_list(action, products) {
@@ -161,30 +152,29 @@ export class ProductService {
 
         var url = '';
         if (action == "delete") {
-          url = this.url + '/products/delete_product.json';
+          url = environment.baseUrl + '/products/delete_product.json';
         } else if (action == "duplicate") {
-          url = this.url + '/products/duplicate_product.json';
+          url = environment.baseUrl + '/products/duplicate_product.json';
         } else if (action == "update_status") {
-          url = this.url + '/products/change_product_status.json';
+          url = environment.baseUrl + '/products/change_product_status.json';
         } else if (action == "barcode") {
-          url = this.url + '/products/generate_barcode.json';
+          url = environment.baseUrl + '/products/generate_barcode.json';
         } else if (action == "barcode_label") {
-          url = this.url + '/products/print_product_barcode_label.json';
+          url = environment.baseUrl + '/products/print_product_barcode_label.json';
         } else if (action == "receiving_label") {
-          url = this.url + '/products/print_receiving_label.json';
+          url = environment.baseUrl + '/products/print_receiving_label.json';
         } else if (action == 'update_per_product') {
-          url = this.url + '/products/scan_per_product.json';
+          url = environment.baseUrl + '/products/scan_per_product.json';
         }
-        return this.http.post(url, products.setup,this.httpOptions)
+        return this.http.post(url, products.setup)
       }
     }
 
     single_add_item(orders, ids) {
       var product_ids = [];
-      debugger
       product_ids.push(orders[0][0].ProductId)
 
-      return this.http.post(this.url + "/orders/" + ids + "/add_item_to_order.json", {productids: product_ids, qty: 1},this.httpOptions)
+      return this.http.post(environment.baseUrl + "/orders/" + ids + "/add_item_to_order.json", {productids: product_ids, qty: 1})
       //   function (data) {
       //     if (data.status) {
       //       notification.notify("Item Successfully Added", 1);
@@ -196,7 +186,7 @@ export class ProductService {
     }
   
     single_remove_item(ids) {
-      return this.http.post(this.url + "/orders/remove_item_from_order.json", {orderitem: ids},this.httpOptions)
+      return this.http.post(environment.baseUrl + "/orders/remove_item_from_order.json", {orderitem: ids})
       //   function (data) {
       //     if (data.status) {
       //       notification.notify("Item Successfully Removed", 1);
