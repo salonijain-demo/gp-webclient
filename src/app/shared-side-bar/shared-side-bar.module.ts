@@ -18,7 +18,6 @@ import { CreateStoreSettingsComponent } from '../settings/store-settings/create-
 import { ShowAllUserPermissionComponent } from '../settings/user-permission/show-all-user-permission/show-all-user-permission.component';
 import { CreateUserPermissionComponent } from '../settings/user-permission/create-user-permission/create-user-permission.component';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { DataGridTableModule } from '../data-grid-table/data-grid-table.module';
 import { CreateProductComponent } from '../products/product-child/create-product/create-product.component';
 import { ShowAllProductComponent } from '../products/product-child/show-all-product/show-all-product.component';
 import { ActiveProductComponent } from '../products/product-child/active-product/active-product.component';
@@ -134,7 +133,6 @@ import { DataGridComponent } from '../data-grid-table/data-grid/data-grid.compon
     GridModule,
     MatTabsModule,
     NgbTimepickerModule,
-    // DataGridTableModule,
     CKEditorModule,
     SliderModule,
     Ng5SliderModule,

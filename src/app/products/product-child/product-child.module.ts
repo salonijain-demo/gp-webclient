@@ -11,12 +11,24 @@ import { ProductInfoCreateComponent } from './create-product/product-info-create
 import { ScanPackCreateProductComponent } from './create-product/scan-pack-create-product/scan-pack-create-product.component';
 import { InventoryKitProductComponent } from './create-product/inventory-kit-product/inventory-kit-product.component';
 import { ActivityLogProductComponent } from './create-product/activity-log-product/activity-log-product.component';
+import { SharedSideBarModule } from 'src/app/shared-side-bar/shared-side-bar.module';
 
 @NgModule({
-  declarations: [CreateProductComponent, ShowAllProductComponent, ActiveProductComponent, InactiveProductComponent, NewProductComponent, ProductInfoCreateComponent, ScanPackCreateProductComponent, InventoryKitProductComponent, ActivityLogProductComponent],
+  declarations: [
+    // CreateProductComponent,
+    // ShowAllProductComponent,
+    // ActiveProductComponent,
+    // InactiveProductComponent,
+    // NewProductComponent,
+    // ProductInfoCreateComponent,
+    // ScanPackCreateProductComponent,
+    // InventoryKitProductComponent,
+    // ActivityLogProductComponent
+  ],
   imports: [
     CommonModule,
-    ProductChildRoutingModule
+    ProductChildRoutingModule,
+    SharedSideBarModule
   ]
 })
 export class ProductChildModule { }

@@ -11,7 +11,7 @@
             <ul class="list-unstyled components">
               <li><a class="dropdown-item" (click)="openModal(createProductDropdown)">Create</a></li>
               <li><a class="dropdown-item" [routerLink]="['product/all']" routerLinkActive="active">Show All</a></li>
-              <li><a class="dropdown-item" [routerLink]="['product/active']" routerLinkActive="active">Active Products</a></li>
+              <li><a class="dropdown-item" [routerLink]="['product']" routerLinkActive="active">Active Products</a></li>
               <li><a class="dropdown-item" [routerLink]="['product/inactive']" routerLinkActive="active">Inactive Products</a></li>
               <li><a class="dropdown-item" [routerLink]="['product/new']" routerLinkActive="active">New</a></li>
             </ul>
@@ -21,7 +21,7 @@
           <div *ngIf="kitDropdown">
             <ul class="list-unstyled components">
               <li><a class="dropdown-item" [routerLink]="['kit/all']" routerLinkActive="active">Show All</a></li>
-              <li><a class="dropdown-item" [routerLink]="['kit/active']" routerLinkActive="active">Active Kits</a></li>
+              <li><a class="dropdown-item" [routerLink]="['kit']" routerLinkActive="active">Active Kits</a></li>
               <li><a class="dropdown-item" [routerLink]="['kit/inactive']" routerLinkActive="active">Inactive Kits</a></li>
               <li><a class="dropdown-item" [routerLink]="['kit/new']" routerLinkActive="active">New Kits</a></li>
             </ul>

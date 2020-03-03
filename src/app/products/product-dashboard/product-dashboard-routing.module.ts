@@ -13,15 +13,22 @@ import { NewKitsComponent } from '../kits/new-kits/new-kits.component';
 const routes: Routes = [
   {path: '', component: ProductDashboardComponent,
   children: [
-    {path: '',  redirectTo:'product/active', pathMatch: 'full'},
-    {path: 'product/active',component: ActiveProductComponent},
-    {path: 'product/inactive', component: InactiveProductComponent},
-    {path: 'product/all', component: ShowAllProductComponent},
-    {path: 'product/new', component: NewProductComponent},
-    {path: 'kit/all', component: ShowAllKitsComponent},
-    {path: 'kit/active', component: ActiveKitsComponent},
-    {path: 'kit/inactive', component: InactiveKitsComponent},
-    {path: 'kit/new', component: NewKitsComponent}
+    {path: '', redirectTo: 'product', pathMatch: 'full'},
+    {path: 'product',
+    loadChildren: '../product-child/product-child.module#ProductChildModule'},
+    {
+      path: 'kit',
+      loadChildren: '../kits/kits.module#KitsModule'
+    }
+    // {path: '',  redirectTo:'product/active', pathMatch: 'full'},
+    // {path: 'product/active',component: ActiveProductComponent},
+    // {path: 'product/inactive', component: InactiveProductComponent},
+    // {path: 'product/all', component: ShowAllProductComponent},
+    // {path: 'product/new', component: NewProductComponent},
+    // {path: 'kit/all', component: ShowAllKitsComponent},
+    // {path: 'kit/active', component: ActiveKitsComponent},
+    // {path: 'kit/inactive', component: InactiveKitsComponent},
+    // {path: 'kit/new', component: NewKitsComponent},
   ],
   }
 ];

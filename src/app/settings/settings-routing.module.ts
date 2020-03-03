@@ -6,7 +6,6 @@ const routes: Routes = [
     path: '',
     loadChildren: './setting-dashboard/setting-dashboard.module#SettingDashboardModule'
   },
-  // {path: 'system', loadChildren: './system-settings/system-settings.module#SystemSettingsModule'}
 ];
 
 @NgModule({

@@ -35,8 +35,8 @@
             <li><a (click)="dropdownList(false,false,true,false,false)">System Settings</a></li>
             <div *ngIf="systemSettingsDropdown">
               <ul class="list-unstyled components">
-                <li><a class="dropdown-item" (click)="systemList(true,false)">General Preferences</a></li>
-                <li><a class="dropdown-item" (click)="systemList(false,true)">Scan & Pack Options</a></li>
+                <li><a class="dropdown-item" [routerLink]="['system']" routerLinkActive="active">General Preferences</a></li>
+                <li><a class="dropdown-item" [routerLink]="['system/scan_pack']" routerLinkActive="active">Scan & Pack Options</a></li>
               </ul>
             </div>
           </ul>
@@ -47,11 +47,11 @@
             <li><a (click)="dropdownList(false,false,false,true,false)">Backup & Export</a></li>
             <div *ngIf="backupExportDropdown">
               <ul class="list-unstyled components">
-                <li><a class="dropdown-item" (click)="backupList(true,false,false,false,false)">Backup & Restore</a></li>
-                <li><a class="dropdown-item" (click)="backupList(false,true,false,false,false)">Exceptions Export</a></li>
-                <li><a class="dropdown-item" (click)="backupList(false,false,true,false,false)">Order Export</a></li>
-                <li><a class="dropdown-item" (click)="backupList(false,false,false,true,false)">User Stats Export</a></li>
-                <li><a class="dropdown-item" (click)="backupList(false,false,false,false,true)">Daily Packed % Report</a></li>
+                <li><a class="dropdown-item" [routerLink]="['export']" routerLinkActive="active">Backup & Restore</a></li>
+                <li><a class="dropdown-item" [routerLink]="['export/order_exception']" routerLinkActive="active">Exceptions Export</a></li>
+                <li><a class="dropdown-item" [routerLink]="['export/order_export']" routerLinkActive="active">Order Export</a></li>
+                <li><a class="dropdown-item" [routerLink]="['export/stats_export']" routerLinkActive="active">User Stats Export</a></li>
+                <li><a class="dropdown-item" [routerLink]="['export/daily_packed']" routerLinkActive="active">Daily Packed % Report</a></li>
               </ul>
             </div>
         </ul>
@@ -62,9 +62,9 @@
               <li><a (click)="dropdownList(false,false,false,false,true)">Account Settings</a></li>
               <div *ngIf="accountSettingsDropdown">
                 <ul class="list-unstyled components">
-                  <li><a class="dropdown-item" (click)="accountList(true,false,false)">Payment Method</a></li>
-                  <li><a class="dropdown-item" (click)="accountList(false,true,false)">Modify Plan</a></li>
-                  <li><a class="dropdown-item" (click)="accountList(false,false,true)">Cost Calculator</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['accounts']" routerLinkActive="active">Payment Method</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['accounts/modify_plan']" routerLinkActive="active">Modify Plan</a></li>
+                  <li><a class="dropdown-item" [routerLink]="['accounts/cost_calculator']" routerLinkActive="active">Cost Calculator</a></li>
                 </ul>
               </div>
             </ul>
@@ -76,19 +76,7 @@
       <div class="col-lg-12">
         <div class="row">
           <router-outlet></router-outlet>
-          <!-- <app-show-all-store-settings *ngIf="showAllSetting"></app-show-all-store-settings>
-          <app-show-all-user-permission *ngIf="showAllUser"></app-show-all-user-permission> -->
           <app-create-user-permission *ngIf="createUser"></app-create-user-permission>
-          <app-general-preference *ngIf="general"></app-general-preference>
-          <app-scan-pack-options *ngIf="scan"></app-scan-pack-options>
-          <app-backup-restore *ngIf="restore"></app-backup-restore>
-          <app-exceptions-export *ngIf="exception"></app-exceptions-export>
-          <app-order-export *ngIf="order"></app-order-export>
-          <app-user-stats-export *ngIf="userStats"></app-user-stats-export>
-          <app-daily-packed-report *ngIf="dailyPacked"></app-daily-packed-report>
-          <app-payment-method *ngIf="payment"></app-payment-method>
-          <app-modify-plan *ngIf="modify"></app-modify-plan>
-          <app-cost-calculator *ngIf="cost"></app-cost-calculator>
         </div>
       </div>
     </div>
